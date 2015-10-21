@@ -5,7 +5,7 @@ class rdapIpResponse extends rdapResponse {
     public $startAddress=null;
     public $endAddress=null;
     public $ipVersion=null;
-    public $rdapConformance = null;
+    public $country=null;
 
     /**
      * @return string
@@ -26,5 +26,12 @@ class rdapIpResponse extends rdapResponse {
      */
     public function getIpVersion() {
         return $this->ipVersion;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry() {
+        return $this->country;
     }
 }

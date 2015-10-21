@@ -2,21 +2,26 @@
 
 class rdapResponse {
     public $handle;
-    public $rdapConformance;
     public $name;
     public $type;
-    public $country;
-    public $entities;
-    public $links;
-    public $remarks;
-    public $notices;
-    public $port43;
+    public $rdapConformance;
+    public $rdapEntities;
+    public $rdapLinks;
+    public $rdapRemarks;
+    public $rdapNotices;
+    public $rdapPort43;
 
     public function __construct($json) {
         if ($data = json_decode($json, true)) {
             foreach ($data AS $key => $value) {
+                $key = rdapObject::translateObjectName($key);
+                //var_dump($key);
                 if (is_array($value)) {
-                    $this->{$key} = rdapObject::createObject($key,$value);
+                    // oud: $this->{$key} = rdapObject::createObject($key,$value);
+                    foreach ($value as $counter => $data) {
+                        $this->{$key}[$counter] = rdapObject::createObject($counter,$data);
+                    }
+
                 } else {
                     $this->{$key} = $value;
                 }
@@ -55,45 +60,40 @@ class rdapResponse {
         return $this->type;
     }
 
-    /**
-     * @return string
-     */
-    public function getCountry() {
-        return $this->country;
-    }
+
 
     /**
      * @return array
      */
     public function getEntities() {
-        return $this->entities;
+        return $this->rdapEntities;
     }
 
     /**
      * @return array
      */
     public function getLinks() {
-        return $this->links;
+        return $this->rdapLinks;
     }
 
     /**
      * @return array
      */
     public function getRemarks() {
-        return $this->remarks;
+        return $this->rdapRemarks;
     }
 
     /**
      * @return array
      */
     public function getNotices() {
-        return $this->notices;
+        return $this->rdapNotices;
     }
 
     /**
      * @return string
      */
     public function getPort43() {
-        return $this->port43;
+        return $this->rdapPort43;
     }
 }

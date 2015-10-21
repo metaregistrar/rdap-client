@@ -1,7 +1,6 @@
 <?php
 
 //require __DIR__ . '/../vendor/autoload.php';
-require __DIR__.'/autoload.php';
 
 class rdap {
 
@@ -159,8 +158,11 @@ class rdap {
     private function createResponse($protocol,$json) {
         switch ($protocol) {
             case rdap::IPV4:
-            default:
                 return new rdapIpResponse($json);
+            case rdap::ASN:
+                return new rdapAsnResponse($json);
+            default:
+                return new rdapResponse($json);
         }
     }
 }
