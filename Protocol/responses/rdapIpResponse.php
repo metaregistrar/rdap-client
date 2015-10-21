@@ -1,11 +1,11 @@
 <?php
 
-
 class rdapIpResponse extends rdapResponse {
 
     public $startAddress=null;
     public $endAddress=null;
     public $ipVersion=null;
+    public $rdapConformance = null;
 
     /**
      * @return string

@@ -1,0 +1,12 @@
+{
+  "name": "metaregistrar/rdap-client",
+  "description": "A php client to query rdap (formerly whois) services",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Ewout de Graaf",
+      "email": "ewout@metaregistrar.com"
+    }
+  ]
+}
