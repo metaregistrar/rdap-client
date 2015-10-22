@@ -18,3 +18,6 @@ https://data.iana.org/rdap/ipv6.json for the IPv6 address space
 
 RDAP json values:
 http://www.iana.org/assignments/rdap-json-values/rdap-json-values-1.csv
+
+RDAP extensions library:
+https://www.iana.org/assignments/rdap-extensions/rdap-extensions.xhtml
