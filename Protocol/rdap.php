@@ -13,11 +13,11 @@ class rdap {
     const HOME = 'home';
 
     private $protocols = array(
-        'ipv4'=> array(self::HOME=>'http://data.iana.org/rdap/ipv4.json',self::SEARCH=>'ip/'),
-        'domain'=>array(self::HOME=>'http://data.iana.org/rdap/dns.json',self::SEARCH=>'domain/'),
-        'ns'=>array(self::HOME=>'http://data.iana.org/rdap/dns.json',self::SEARCH=>'nameserver/'),
-        'ipv6'=>array(self::HOME=>'http://data.iana.org/rdap/ipv6.json',self::SEARCH=>'ip/'),
-        'asn'=>array(self::HOME=>'http://data.iana.org/rdap/asn.json',self::SEARCH=>'autnum/')
+        'ipv4'=> array(self::HOME=>'https://data.iana.org/rdap/ipv4.json',self::SEARCH=>'ip/'),
+        'domain'=>array(self::HOME=>'https://data.iana.org/rdap/dns.json',self::SEARCH=>'domain/'),
+        'ns'=>array(self::HOME=>'https://data.iana.org/rdap/dns.json',self::SEARCH=>'nameserver/'),
+        'ipv6'=>array(self::HOME=>'https://data.iana.org/rdap/ipv6.json',self::SEARCH=>'ip/'),
+        'asn'=>array(self::HOME=>'https://data.iana.org/rdap/asn.json',self::SEARCH=>'autnum/')
     );
 
     private $protocol = '';
@@ -125,7 +125,7 @@ class rdap {
                     // exact match
                     if ($number == $parameter) {
                         //var_dump($service[0]);
-                        //echo $service[1][0].$protocols[$protocol]['search'].$number;
+                        //echo $service[1][0].$this->protocols[$this->protocol][self::SEARCH].$number;
                         $rdap = file_get_contents($service[1][0].$this->protocols[$this->protocol][self::SEARCH].$search);
                         //var_dump(json_decode($rdap));
                         return $this->createResponse($this->getProtocol(),$rdap);

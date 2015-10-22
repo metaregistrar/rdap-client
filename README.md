@@ -11,10 +11,10 @@ http://tools.ietf.org/html/rfc7484 Finding the Authoritative Registration Data (
 http://tools.ietf.org/html/rfc7485 Inventory and Analysis of WHOIS Registration Objects
 
 Bootstrap files from the IANA website:
-http://data.iana.org/rdap/dns.json for the domain name space
-http://data.iana.org/rdap/asn.json for the AS numbers space
-http://data.iana.org/rdap/ipv4.json for the IPv4 address space
-http://data.iana.org/rdap/ipv6.json for the IPv6 address space
+https://data.iana.org/rdap/dns.json for the domain name space
+https://data.iana.org/rdap/asn.json for the AS numbers space
+https://data.iana.org/rdap/ipv4.json for the IPv4 address space
+https://data.iana.org/rdap/ipv6.json for the IPv6 address space
 
 RDAP json values:
 http://www.iana.org/assignments/rdap-json-values/rdap-json-values-1.csv
