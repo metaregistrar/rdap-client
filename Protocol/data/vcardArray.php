@@ -1,5 +1,7 @@
 <?php
+namespace Metaregistrar\RDAP {
+    class vcardArray extends rdapObject
+    {
 
-class vcardArray extends rdapObject {
-
+    }
 }

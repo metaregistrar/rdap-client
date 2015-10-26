@@ -1,57 +1,60 @@
 <?php
+namespace Metaregistrar\RDAP {
 
-class rdapNotice extends rdapObject {
-    public $title = null;
-    public $description = array();
-    public $links = array();
-
-
-    /**
-     * @return null
-     */
-    public function getTitle()
+    class rdapNotice extends rdapObject
     {
-        return $this->title;
-    }
+        public $title = null;
+        public $description = array();
+        public $links = array();
 
-    /**
-     * @param null $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
 
-    /**
-     * @return array
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
+        /**
+         * @return null
+         */
+        public function getTitle()
+        {
+            return $this->title;
+        }
 
-    /**
-     * @param array $description
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-    }
+        /**
+         * @param null $title
+         */
+        public function setTitle($title)
+        {
+            $this->title = $title;
+        }
 
-    /**
-     * @return array
-     */
-    public function getLinks()
-    {
-        return $this->links;
-    }
+        /**
+         * @return array
+         */
+        public function getDescription()
+        {
+            return $this->description;
+        }
 
-    /**
-     * @param array $links
-     */
-    public function setLinks($links)
-    {
-        $this->links = $links;
-    }
+        /**
+         * @param array $description
+         */
+        public function setDescription($description)
+        {
+            $this->description = $description;
+        }
 
+        /**
+         * @return array
+         */
+        public function getLinks()
+        {
+            return $this->links;
+        }
+
+        /**
+         * @param array $links
+         */
+        public function setLinks($links)
+        {
+            $this->links = $links;
+        }
+
+    }
 }

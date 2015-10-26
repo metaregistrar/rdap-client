@@ -1,8 +1,7 @@
 <?php
 namespace Metaregistrar\RDAP {
 
-    class rdapException extends \Exception
+    class rdapDescription extends rdapObject
     {
-
     }
 }

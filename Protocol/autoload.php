@@ -2,6 +2,7 @@
 spl_autoload_register('protocolLoader');
 
 function protocolLoader($className) {
+    $className = str_replace('Metaregistrar\RDAP\\','',$className);
     loadfile($className,'');
     loadfile($className,'data');
     loadfile($className,'responses');

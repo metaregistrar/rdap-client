@@ -1,4 +1,7 @@
 <?php
+namespace Metaregistrar\RDAP {
 
-class rdapLink extends rdapObject {
+    class rdapLink extends rdapObject
+    {
+    }
 }

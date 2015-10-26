@@ -1,6 +1,8 @@
 <?php
+namespace Metaregistrar\RDAP {
 
+    class rdapEvent extends rdapObject
+    {
 
-class rdapEvent extends rdapObject {
-
+    }
 }

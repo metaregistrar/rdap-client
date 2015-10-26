@@ -1,4 +1,6 @@
 <?php
-
-class rdapRole extends rdapObject {
+namespace Metaregistrar\RDAP {
+    class rdapRole extends rdapObject
+    {
+    }
 }
