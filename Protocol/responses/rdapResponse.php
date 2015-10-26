@@ -5,24 +5,26 @@ class rdapResponse {
     public $name;
     public $type;
     public $rdapConformance;
-    public $rdapEntities;
-    public $rdapLinks;
-    public $rdapRemarks;
-    public $rdapNotices;
-    public $rdapPort43;
+    public $entities = null;
+    public $links = null;
+    public $remarks= null;
+    public $notices = null;
+    public $events = null;
+    public $port43;
 
     public function __construct($json) {
         if ($data = json_decode($json, true)) {
             foreach ($data AS $key => $value) {
-                $key = rdapObject::translateObjectName($key);
-                //var_dump($key);
                 if (is_array($value)) {
-                    // oud: $this->{$key} = rdapObject::createObject($key,$value);
-                    foreach ($value as $counter => $data) {
-                        $this->{$key}[$counter] = rdapObject::createObject($counter,$data);
+                    // $value is an array
+                    if ($key != 'entities') {
+                        foreach ($value as $k=>$v) {
+                            $this->{$key}[] = rdapObject::KeyToObject($key,$v);
+                        }
                     }
 
                 } else {
+                    // $value is not an array, just create a var with this value (startAddress endAddress ipVersion etc etc)
                     $this->{$key} = $value;
                 }
             }
@@ -43,7 +45,7 @@ class rdapResponse {
      * @return array
      */
     public function getConformance() {
-        return $this->rdapConformance;
+        return $this->conformance;
     }
 
     /**
@@ -66,34 +68,34 @@ class rdapResponse {
      * @return array
      */
     public function getEntities() {
-        return $this->rdapEntities;
+        return $this->entities;
     }
 
     /**
      * @return array
      */
     public function getLinks() {
-        return $this->rdapLinks;
+        return $this->links;
     }
 
     /**
      * @return array
      */
     public function getRemarks() {
-        return $this->rdapRemarks;
+        return $this->remarks;
     }
 
     /**
      * @return array
      */
     public function getNotices() {
-        return $this->rdapNotices;
+        return $this->notices;
     }
 
     /**
      * @return string
      */
     public function getPort43() {
-        return $this->rdapPort43;
+        return $this->port43;
     }
 }

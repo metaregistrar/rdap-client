@@ -105,7 +105,6 @@ class rdap {
         if ((in_array($this->getProtocol(),array(self::DOMAIN,self::NS,self::IPV4,self::IPV6))) && (!is_string($search))) {
             throw new rdapException('Search parameter must be a string for ipv4, ipv6, domain or nameserver searches');
         }
-
         if (($this->getProtocol()==self::ASN) && (!is_numeric($search))) {
             throw new rdapException('Search parameter must be a string or a number for asn searches');
         }
@@ -117,14 +116,20 @@ class rdap {
                 if (strpos($number,'-')>0) {
                     list($start,$end) = explode('-',$number);
                     if (($parameter >= $start) && ($parameter <= $end)) {
+                        // check for slash as last character in the server name, if not, add it
+                        if ($service[1][0]{strlen($service[1][0])-1}!='/'){
+                            $service[1][0]=$service[1][0].'/';
+                        }
                         $rdap = file_get_contents($service[1][0].$this->protocols[$this->protocol][self::SEARCH].$search);
-                        //echo $rdap;
                         return $this->createResponse($this->getProtocol(),$rdap);
                     }
                 } else {
                     // exact match
                     if ($number == $parameter) {
-                        //var_dump($service[0]);
+                        // check for slash as last character in the server name, if not, add it
+                        if ($service[1][0]{strlen($service[1][0])-1}!='/'){
+                            $service[1][0]=$service[1][0].'/';
+                        }
                         //echo $service[1][0].$this->protocols[$this->protocol][self::SEARCH].$number;
                         $rdap = file_get_contents($service[1][0].$this->protocols[$this->protocol][self::SEARCH].$search);
                         //var_dump(json_decode($rdap));

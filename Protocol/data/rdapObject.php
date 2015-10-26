@@ -3,70 +3,61 @@
 class rdapObject {
 
     public function __construct($key, $content) {
-        //var_dump($key);
-        //var_dump($content);
         if (is_array($content)) {
-            // $content is an array
-            if ($key == 'rdapEntities') {
-                //var_dump($content);
-            }
-            foreach ($content AS $key => $value) {
-                if (is_array($value)) {
-                    // $value is an array, create new objects from the array contents
-                    if (is_numeric($key)) {
-                        $this->data[$key] = $this->createObject($key,$value);
-                    } else {
-                        $this->{$key} = $this->createObject($key,$value);
-                    }
-                } else {
-                    // $value is not an array
-                    if (is_numeric($key)) {
-                        $this->data[$key] = $value;
-                    } else {
-                        $this->{$key} = $value;
-                    }
-                }
+            foreach ($content as $ck=>$cv) {
+                $this->{$ck}=$cv;
             }
         } else {
-            // $content is not an array
-            $this->{$key} = $this->createObject($key,$content);
+            $this->{$key}=$content;
         }
     }
 
     public static function createObject($key,$value) {
-        if ($key === 0) {
-            return $value;
+        echo "CREATEOBJECT $key\n";
+        if (is_numeric($key)) {
+            if (is_array($value)) {
+                foreach ($value as $k=>$v) {
+                    return self::KeyToObject($k,$v);
+                }
+            } else {
+                return $value;
+            }
+
         } else {
-            $key = self::translateObjectName($key);
-            return new $key($key,$value);
+            return self::KeyToObject($key,$value);
         }
+        return null;
     }
 
-    public static function translateObjectName($name) {
-        if (is_numeric($name)) {
-            return 'rdapObject';
-        }
+    public static function KeyToObjectName($name) {
         switch ($name) {
             case 'entities':
-                return 'rdapEntities';
+                return 'rdapEntity';
             case 'remarks':
-                return 'rdapRemarks';
+                return 'rdapRemark';
             case 'links':
-                return 'rdapLinks';
+                return 'rdapLink';
             case 'notices':
-                return 'rdapNotices';
+                return 'rdapNotice';
             case 'events':
-                return 'rdapEvents';
+                return 'rdapEvent';
             case 'roles':
-                return 'rdapRoles';
+                return 'rdapRole';
             case 'description':
                 return 'rdapDescription';
             case 'port43':
                 return 'rdapPort43';
-            case '':
-                return 'rdapObject';
             default:
                 return $name;
+        }
+    }
+
+    public static function KeyToObject($name,$content) {
+        $name = self::KeyToObjectName($name);
+        if (class_exists($name)) {
+            return new $name($name,$content);
+        } else {
+            return $content;
         }
     }
 }
