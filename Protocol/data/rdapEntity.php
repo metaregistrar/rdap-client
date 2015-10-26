@@ -2,44 +2,28 @@
 namespace Metaregistrar\RDAP {
 
     class rdapEntity extends rdapObject {
+        public $lang;
+        public $handle;
+        public $status = array();
+        public $port43 = null;
+        public $vcardArray = array();
+        public $objectClassName = null;
+        public $remarks = array();
 
         public function __construct($key, $content) {
-            echo "rdapObject\n";
-            if (is_array($content)) {
-                // $content is an array
-                echo "CONTENT IS AN ARRAY WITH COUNT ".count($content)."\n";
-                //var_dump($content);
-                foreach ($content AS $key => $value) {
-                    if (is_array($value)) {
-                        // $value is an array, create new objects from the array contents
-                        echo "VALUE IS AN ARRAY WITH COUNT ".count($value)."\n";
-                        //echo "CREATE OBJECT $key\n";
-                        foreach ($value as $k => $v) {
-                            if (is_numeric($key)) {
-                                $this->data[$k] = $this->createObject($k,$v);
-                            } else {
-                                $this->{$k} = $this->createObject($k,$v);
-                                var_dump($this->{$key});
-                            }
-                        }
-
-                    } else {
-                        // $value is not an array
-                        echo "CREATE ARRAY $key\n";
-                        if (is_numeric($key)) {
-                            $this->data[$key] = $value;
-                        } else {
-                            $this->{$key} = $value;
-                        }
-                    }
-                } // end for ($contend AS $key => $value)
-            } else {
-                // $content is not an array
-                echo "$content IS NOT AN ARRAY\n";
-                $this->{$key} = $content;
-                //var_dump($this);
-                //die();
-                //$this->{$key} = $this->createObject($key,$content);
+            parent::__construct($key, $content);
+            if (count($this->remarks)>0) {
+                foreach ($this->remarks as $id=>$remark) {
+                    $r = new rdapRemark('remark',$remark);
+                    $this->remarks[$id]=$r;
+                    //var_dump($r);
+                }
+            }
+            if (count($this->vcardArray)>0) {
+                foreach($this->vcardArray as $id=>$vcard){
+                    $v = new vcardArray('vcard',$vcard);
+                    $this->vcardArray[$id] = $v;
+                }
             }
         }
     }

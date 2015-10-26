@@ -20,11 +20,11 @@ namespace Metaregistrar\RDAP {
                 foreach ($data AS $key => $value) {
                     if (is_array($value)) {
                         // $value is an array
-                        if ($key != 'entities') {
+                        //if ($key != 'entities') {
                             foreach ($value as $k => $v) {
                                 $this->{$key}[] = rdapObject::KeyToObject($key, $v);
                             }
-                        }
+                        //}
 
                     } else {
                         // $value is not an array, just create a var with this value (startAddress endAddress ipVersion etc etc)

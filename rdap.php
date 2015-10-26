@@ -17,11 +17,17 @@ try {
     //echo "country: ".$test->getCountry()."\n";
     echo "type: ".$test->getType()."\n";
     echo "port 43 service: ".$test->getPort43()."\n";
-    var_dump($test);
+//    var_dump($test);
     //die();
     echo "rdap conformance: \n";
     foreach ($test->rdapConformance as $conformance) {
        echo '-  '.$conformance->rdapConformance."\n";
+    }
+    if (is_array($test->entities)) {
+        echo "Entities:\n";
+        foreach($test->entities as $entity) {
+
+        }
     }
     if (is_array($test->links)) {
         echo "Links:\n";
