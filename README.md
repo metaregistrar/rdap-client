@@ -1,6 +1,8 @@
 # rdap-client
 A php client to query rdap (formerly whois) services
 
+No additional libraries needed - just plain object-oriented PHP.
+
 This client implements the following Internet Standards:
 
 http://tools.ietf.org/html/rfc7480 HTTP Usage in the Registration Data Access Protocol (RDAP)
