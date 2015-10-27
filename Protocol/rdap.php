@@ -110,7 +110,7 @@ namespace Metaregistrar\RDAP {
                 throw new rdapException('Search parameter must be a string for ipv4, ipv6, domain or nameserver searches');
             }
             if (($this->getProtocol() == self::ASN) && (!is_numeric($search))) {
-                throw new rdapException('Search parameter must be a string or a number for asn searches');
+                throw new rdapException('Search parameter must be a number or a string with numeric info for asn searches');
             }
             $parameter = $this->prepareSearch($search);
             $services = $this->readRoot();
