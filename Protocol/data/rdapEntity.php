@@ -42,7 +42,6 @@ namespace Metaregistrar\RDAP {
                 foreach ($this->roles as $id=>$role) {
                     unset ($this->roles[$id]);
                     $this->roles[] = new rdapRole('role',$role);
-//                    var_dump($role);
                 }
             }
 
