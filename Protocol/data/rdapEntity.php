@@ -13,6 +13,7 @@ namespace Metaregistrar\RDAP {
 
         public function __construct($key, $content) {
             parent::__construct($key, $content);
+            // All data has been stored in an internal array, now put it in the correct object structures
             if (count($this->remarks)>0) {
                 foreach ($this->remarks as $id=>$remark) {
                     $r = new rdapRemark('remark',$remark);
@@ -35,7 +36,8 @@ namespace Metaregistrar\RDAP {
             }
             if (count($this->remarks)>0) {
                 foreach ($this->remarks as $id=>$remark) {
-                    var_dump($remark);
+                    unset ($this->remarks[$id]);
+                    $this->remarks[] = new rdapRemark('remark',$remark);
                 }
             }
             if (count($this->roles)>0) {
