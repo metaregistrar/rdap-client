@@ -5,9 +5,10 @@ require('Protocol/autoload.php');
 
 $search = 59980;
 $protocol = Metaregistrar\RDAP\rdap::ASN;
-$search = '81.4.97.200';
-$search = '196.216.2.6';
-$protocol = Metaregistrar\RDAP\rdap::IPV4;
+//$search = '81.4.97.200';
+//$search = '196.216.2.6';
+//$search = '8.8.4.4';
+//$protocol = Metaregistrar\RDAP\rdap::IPV4;
 
 try {
     $rdap = new Metaregistrar\RDAP\rdap($protocol);
@@ -26,7 +27,20 @@ try {
     if (is_array($test->entities)) {
         echo "Entities:\n";
         foreach($test->entities as $entity) {
+//            var_dump($entity);
 
+            echo "- Handle: ".$entity->handle."\n";
+            if (count($entity->roles)>0) {
+                echo "- Roles:\n";
+                foreach ($entity->roles as $role) {
+                    echo '  - '.$role->role."\n";
+                }
+            }
+            if ((is_array($entity->vcardArray)) && (count($entity->vcardArray)>0)) {
+                foreach ($entity->vcardArray as $vcard) {
+                    echo '  - '.$vcard->type.': '.$vcard->content.' ('.$vcard->fieldtype.")\n";
+                }
+            }
         }
     }
     if (is_array($test->links)) {

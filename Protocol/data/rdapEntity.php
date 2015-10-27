@@ -9,6 +9,7 @@ namespace Metaregistrar\RDAP {
         public $vcardArray = array();
         public $objectClassName = null;
         public $remarks = array();
+        public $roles = array();
 
         public function __construct($key, $content) {
             parent::__construct($key, $content);
@@ -16,15 +17,35 @@ namespace Metaregistrar\RDAP {
                 foreach ($this->remarks as $id=>$remark) {
                     $r = new rdapRemark('remark',$remark);
                     $this->remarks[$id]=$r;
-                    //var_dump($r);
                 }
             }
             if (count($this->vcardArray)>0) {
                 foreach($this->vcardArray as $id=>$vcard){
-                    $v = new vcardArray('vcard',$vcard);
-                    $this->vcardArray[$id] = $v;
+                    if (is_array($vcard)) {
+                        foreach ($vcard as $v) {
+                            unset($this->vcardArray[$id]);
+                            $this->vcardArray[] = new vcardArray($v);
+                        }
+                    } else {
+                        unset($this->vcardArray[$id]);
+                        //var_dump($vcard);
+                    }
+
                 }
             }
+            if (count($this->remarks)>0) {
+                foreach ($this->remarks as $id=>$remark) {
+                    var_dump($remark);
+                }
+            }
+            if (count($this->roles)>0) {
+                foreach ($this->roles as $id=>$role) {
+                    unset ($this->roles[$id]);
+                    $this->roles[] = new rdapRole('role',$role);
+//                    var_dump($role);
+                }
+            }
+
         }
     }
 }
