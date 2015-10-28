@@ -3,6 +3,9 @@ A php client to query rdap (formerly whois) services
 
 No additional libraries needed - just plain object-oriented PHP.
 
+Please note that the RDAP standard is not fully implemented by all registries yet.
+The bootstrap file for domains is still empty, rendering this client unfit to query domain names at this time.
+
 This client implements the following Internet Standards:
 
 http://tools.ietf.org/html/rfc7480 HTTP Usage in the Registration Data Access Protocol (RDAP)
