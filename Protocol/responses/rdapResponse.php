@@ -3,19 +3,69 @@ namespace Metaregistrar\RDAP {
 
     class rdapResponse
     {
-        public $handle;
-        public $name;
-        public $type;
-        public $rdapConformance;
-        public $entities = null;
-        public $links = null;
-        public $remarks = null;
-        public $notices = null;
-        public $events = null;
-        public $port43;
+        /**
+         * @var string|null
+         */
+        protected $objectClassName=null;
+        /**
+         * @var string|null
+         */
+        protected $ldhName=null;
+        /**
+         * @var string
+         */
+        protected $handle;
+        /*
+        * @var  string
+        */
+        protected $name;
+        /**
+         * @var string
+         */
+        protected $type;
+        /**
+         * @var null|rdapConformance[]
+         */
+        protected $rdapConformance=null;
+        /**
+         * @var null|rdapEntity[]
+         */
+        protected $entities = null;
+        /**
+         * @var null|rdapLink[]
+         */
+        protected $links = null;
+        /**
+         * @var null|rdapRemark[]
+         */
+        protected $remarks = null;
+        /**
+         * @var null|rdapNotice[]
+         */
+        protected $notices = null;
+        /**
+         * @var null|rdapEvent[]
+         */
+        protected $events = null;
+        /**
+         * @var null|rdapPort43[]
+         */
+        protected $port43;
+        /**
+         * @var null|rdapNameserver[]
+         */
+        protected $nameservers=null;
+        /**
+         * @var null|rdapStatus[]
+         */
+        protected $status=null;
+        /**
+         * @var null|rdapSecureDNS[]
+         */
+        protected $secureDNS = null;
 
-        public function __construct($json)
-        {
+
+        public function __construct($json) {
             if ($data = json_decode($json, true)) {
                 foreach ($data AS $key => $value) {
                     if (is_array($value)) {
@@ -37,74 +87,107 @@ namespace Metaregistrar\RDAP {
         /**
          * @return string
          */
-        public function getHandle()
-        {
+        public function getHandle() {
             return $this->handle;
         }
 
         /**
-         * @return array
+         * @return rdapConformance[]|null
          */
-        public function getConformance()
-        {
+        public function getConformance() {
             return $this->rdapConformance;
         }
 
         /**
          * @return string
          */
-        public function getName()
-        {
+        public function getName() {
             return $this->name;
         }
 
         /**
          * @return string
          */
-        public function getType()
-        {
+        public function getType() {
             return $this->type;
         }
 
 
         /**
-         * @return array
+         * @return rdapEntity[]|null
          */
-        public function getEntities()
-        {
+        public function getEntities() {
             return $this->entities;
         }
 
         /**
-         * @return array
+         * @return rdapLink[]|null
          */
-        public function getLinks()
-        {
+        public function getLinks() {
             return $this->links;
         }
 
         /**
-         * @return array
+         * @return rdapRemark[]|null
          */
-        public function getRemarks()
-        {
+        public function getRemarks() {
             return $this->remarks;
         }
 
         /**
-         * @return array
+         * @return rdapNotice[]|null
          */
-        public function getNotices()
-        {
+        public function getNotices() {
             return $this->notices;
         }
 
         /**
          * @return string
          */
-        public function getPort43()
-        {
+        public function getPort43() {
             return $this->port43;
+        }
+
+        /**
+         * @return rdapNameserver[]|null
+         */
+        public function getNameservers() {
+            return $this->nameservers;
+        }
+
+        /**
+         * @return rdapStatus[]|null
+         */
+        public function getStatus() {
+            return $this->status;
+        }
+
+        /**
+         * @return rdapEvent[]|null
+         */
+        public function getEvents() {
+            return $this->events;
+        }
+
+        /**
+         * @return string|null
+         */
+        public function getClassname() {
+            return $this->objectClassName;
+        }
+
+        /**
+         * @return string|null
+         */
+        public function getLDHName() {
+            return $this->ldhName;
+        }
+
+        /**
+         * @return rdapSecureDNS[]|null
+         */
+        public function getSecureDNS() {
+            return $this->secureDNS;
         }
     }
 }

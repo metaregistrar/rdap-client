@@ -1,59 +1,65 @@
 <?php
 namespace Metaregistrar\RDAP {
 
-    class rdapNotice extends rdapObject
-    {
-        public $title = null;
-        public $description = array();
-        public $links = array();
 
+
+    class rdapNotice extends rdapObject {
+        public $title = null;
+        public $type = null;
+        /**
+         * @var rdapDescription[]|null
+         */
+        public $description = null;
+        /**
+         * @var rdapLink[]|null
+         */
+        public $links = null;
+
+        public function __construct($key, $content) {
+            $this->objectClassName = 'Notice';
+            parent::__construct($key, $content);
+        }
+
+        public function dumpContents() {
+            echo '- '.$this->getTitle().": ".$this->getType()."\n";
+            if (is_array($this->description)) {
+                foreach ($this->description as $descr) {
+                    $descr->dumpContents();
+                }
+            }
+            if (is_array($this->links)) {
+                foreach ($this->links as $link) {
+                    $link->dumpContents();
+                }
+            }
+        }
 
         /**
          * @return null
          */
-        public function getTitle()
-        {
+        public function getTitle() {
             return $this->title;
         }
 
-        /**
-         * @param null $title
-         */
-        public function setTitle($title)
-        {
-            $this->title = $title;
-        }
 
         /**
          * @return array
          */
-        public function getDescription()
-        {
-            return $this->description;
+        public function getDescription() {
+            $return = '';
+            if (is_array($this->description)) {
+                foreach ($this->description as $descr) {
+                    $return .= $descr."\n";
+                }
+            } else {
+                $return = $this->description;
+            }
+            return $return;
         }
 
-        /**
-         * @param array $description
-         */
-        public function setDescription($description)
-        {
-            $this->description = $description;
-        }
 
-        /**
-         * @return array
-         */
-        public function getLinks()
-        {
-            return $this->links;
-        }
-
-        /**
-         * @param array $links
-         */
-        public function setLinks($links)
-        {
-            $this->links = $links;
+        public function getType() {
+            return $this->type;
         }
 
     }

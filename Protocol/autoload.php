@@ -17,10 +17,8 @@ function loadfile($className, $directory) {
     if (strlen($directory)>0) {
         $directory .= $delimiter;
     }
-    $fileName = __DIR__ . $delimiter . $directory . $className . '.php';
-    //echo "Test autoload $fileName\n";
+    $fileName = __DIR__ . $delimiter . $directory . $className . '.php';;
     if (is_readable($fileName)) {
-        //echo "Autoloaded $fileName\n";
         require($fileName);
     }
 }

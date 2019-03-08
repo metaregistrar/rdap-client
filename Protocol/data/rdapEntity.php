@@ -2,51 +2,126 @@
 namespace Metaregistrar\RDAP {
 
     class rdapEntity extends rdapObject {
-        public $lang;
-        public $handle;
-        public $status = array();
-        public $port43 = null;
-        public $vcardArray = array();
-        public $objectClassName = null;
-        public $remarks = array();
-        public $roles = array();
+        /**
+         * @var string|null
+         */
+        protected $type=null;
+        /**
+         * @var string
+         */
+        protected $lang;
+        /*
+         * @var string
+         */
+        protected $handle;
+        /**
+         * @var null|rdapStatus[]
+         */
+        protected $status = null;
+        /**
+         * @var null|string
+         */
+        protected $port43 = null;
+        /**
+         * @var rdapVcard[]|null
+         */
+        protected $vcards = null;
+        protected $vcardArray = null;
+        protected $objectClassName = null;
+        protected $remarks = array();
+        /**
+         * @var rdapRole[]|null
+         */
+        protected $roles = null;
+        /**
+         * @var null|rdapPublicId[]
+         */
+        protected $publicIds = null;
+        protected $entities = null;
 
         public function __construct($key, $content) {
             parent::__construct($key, $content);
-            // All data has been stored in an internal array, now put it in the correct object structures
-            if (count($this->remarks)>0) {
-                foreach ($this->remarks as $id=>$remark) {
-                    $r = new rdapRemark('remark',$remark);
-                    $this->remarks[$id]=$r;
-                }
-            }
             if (count($this->vcardArray)>0) {
                 foreach($this->vcardArray as $id=>$vcard){
                     if (is_array($vcard)) {
                         foreach ($vcard as $v) {
-                            unset($this->vcardArray[$id]);
-                            $this->vcardArray[] = new vcardArray($v);
+                            if (is_array($v)) {
+                                foreach ($v as $card) {
+                                    $this->vcards[] = new rdapVcard($card[0],$card[1],$card[2],$card[3]);
+                                }
+                            }
                         }
                     } else {
-                        unset($this->vcardArray[$id]);
-                        //var_dump($vcard);
+                        $this->type = $vcard;
                     }
+                }
+                unset($this->vcardArray);
+            }
+        }
+
+        /**
+         * @return string|null
+         */
+        public function getHandle() {
+            return $this->handle;
+        }
+
+        /*
+         * return string|null
+         */
+        public function getLanguage() {
+            return $this->lang;
+        }
+
+        /**
+         * @return null|string
+         */
+        public function getPort43() {
+            return $this->port43;
+        }
+
+        /**
+         * @return string
+         */
+        public function getRoles() {
+            $return = '';
+            if (is_array($this->roles)) {
+                foreach ($this->roles as $role) {
+                    if (strlen($return)>0) {
+                        $return .= ', ';
+                    }
+                    $return .= $role->getRole();
+                }
+            }
+            return $return;
+        }
+
+        /**
+         *
+         */
+        public function dumpContents() {
+            echo "- Handle: ".$this->getHandle()."\n";
+            if (isset($this->roles)) {
+                foreach ($this->roles as $role) {
+                    echo "- Role: ".$role->getRole()."\n";
+                }
+            }
+            if (isset($this->port43)) {
+                echo "- Port 43 whois: ".$this->getPort43()."\n";
+            }
+            if (isset($this->publicIds)) {
+                if (is_array($this->publicIds)) {
+                    foreach ($this->publicIds as $publicid) {
+                        $publicid->dumpContents();
+                    }
+                }
+            }
+            if ((is_array($this->vcards)) && (count($this->vcards)>0)) {
+                foreach ($this->vcards as $vcard) {
+                    $vcard->dumpContents();
 
                 }
             }
-            if (count($this->remarks)>0) {
-                foreach ($this->remarks as $id=>$remark) {
-                    unset ($this->remarks[$id]);
-                    $this->remarks[] = new rdapRemark('remark',$remark);
-                }
-            }
-            if (count($this->roles)>0) {
-                foreach ($this->roles as $id=>$role) {
-                    unset ($this->roles[$id]);
-                    $this->roles[] = new rdapRole('role',$role);
-                }
-            }
-
         }
     }
 }

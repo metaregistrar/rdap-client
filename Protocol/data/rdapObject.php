@@ -1,41 +1,58 @@
 <?php
 namespace Metaregistrar\RDAP {
 
-    class rdapObject
-    {
+    /**
+     * This is the parent class for all rdapXXXXX objects. This class will interpret the json that was received and convert it into objects that give back the data required
+     * Class rdapObject
+     * @package Metaregistrar\RDAP
+     */
+    class rdapObject {
+        /**
+         * @var string
+         */
+        protected $objectClassName;
 
-        public function __construct($key, $content)
-        {
-            if (is_array($content)) {
-                foreach ($content as $ck => $cv) {
-                    $this->{$ck} = $cv;
+        public function __construct($key, $content) {
+            if ($content) {
+                if (is_array($content)) {
+                    foreach ($content as $ck => $cv) {
+                        if (is_array($cv)) {
+                            if (is_numeric($ck)) {
+                                if (is_array($cv)) {
+                                    foreach ($cv as $k => $v) {
+                                        $this->{$k}[] = self::createObject($k, $v);
+                                    }
+                                } else {
+                                    $this->{$ck} = $cv;
+                                }
+                            } else {
+                                $this->{$ck}[] = self::createObject($ck,$cv);
+                            }
+                        } else {
+                            $this->{$ck} = $cv;
+                        }
+                    }
+                } else {
+                    $var = str_replace('Metaregistrar\RDAP\\','',$key);
+                    $this->{$var} = $content;
                 }
-            } else {
-                $var = str_replace('Metaregistrar\RDAP\\','',$key);
-                $this->{$var} = $content;
             }
         }
 
-        public static function createObject($key, $value)
-        {
+        public static function createObject($key, $value) {
             //echo "CREATEOBJECT $key\n";
             if (is_numeric($key)) {
                 if (is_array($value)) {
-                    foreach ($value as $k => $v) {
-                        return self::KeyToObject($k, $v);
-                    }
+                    die ("$key VALUE MAG GEEN ARRAY ZIJN\n");
                 } else {
                     return $value;
                 }
-
             } else {
                 return self::KeyToObject($key, $value);
             }
-            return null;
         }
 
-        public static function KeyToObjectName($name)
-        {
+        public static function KeyToObjectName($name) {
             switch ($name) {
                 case 'rdapConformance':
                     return 'Metaregistrar\RDAP\rdapConformance';
@@ -55,19 +72,31 @@ namespace Metaregistrar\RDAP {
                     return 'Metaregistrar\RDAP\rdapDescription';
                 case 'port43':
                     return 'Metaregistrar\RDAP\rdapPort43';
+                case 'nameservers':
+                    return 'Metaregistrar\RDAP\rdapNameserver';
+                case 'secureDNS':
+                    return 'Metaregistrar\RDAP\rdapSecureDNS';
+                case 'status':
+                    return 'Metaregistrar\RDAP\rdapStatus';
+                case 'publicIds':
+                    return 'Metaregistrar\RDAP\rdapPublicId';
                 default:
                     return $name;
             }
         }
 
-        public static function KeyToObject($name, $content)
-        {
+        public static function KeyToObject($name, $content) {
+            //echo "KEYTOOBJECT $name\n";
             $name = self::KeyToObjectName($name);
             if (class_exists($name)) {
                 return new $name($name, $content);
             } else {
                 return $content;
             }
+        }
+
+        public function getObjectClassname() {
+            return $this->objectClassName;
         }
     }
 }

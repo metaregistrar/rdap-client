@@ -1,10 +1,8 @@
 <?php
-//require __DIR__ . '/../vendor/autoload.php';
 
 namespace Metaregistrar\RDAP {
 
-    class rdap
-    {
+    class rdap {
 
         const ASN = 'asn';
         const IPV4 = 'ipv4';
@@ -27,8 +25,7 @@ namespace Metaregistrar\RDAP {
         private $version = '';
         private $description = '';
 
-        function __construct($protocol)
-        {
+        function __construct($protocol) {
             if (($protocol != self::ASN) && ($protocol != self::IPV4) && ($protocol != self::IPV6) && ($protocol != self::DOMAIN)) {
                 throw new rdapException('Protocol ' . $protocol . ' is not recognized by this rdap client implementation');
             } else {
@@ -40,32 +37,28 @@ namespace Metaregistrar\RDAP {
         /**
          * @return string
          */
-        public function getProtocol()
-        {
+        public function getProtocol() {
             return $this->protocol;
         }
 
         /**
          * @param string $protocol
          */
-        public function setProtocol($protocol)
-        {
+        public function setProtocol($protocol) {
             $this->protocol = $protocol;
         }
 
         /**
          * @return string
          */
-        public function getPublicationdate()
-        {
+        public function getPublicationdate() {
             return $this->publicationdate;
         }
 
         /**
          * @param string $publicationdate
          */
-        public function setPublicationdate($publicationdate)
-        {
+        public function setPublicationdate($publicationdate) {
             $this->publicationdate = $publicationdate;
         }
 
@@ -80,32 +73,29 @@ namespace Metaregistrar\RDAP {
         /**
          * @param string $version
          */
-        public function setVersion($version)
-        {
+        public function setVersion($version) {
             $this->version = $version;
         }
 
         /**
          * @return string
          */
-        public function getDescription()
-        {
+        public function getDescription() {
             return $this->description;
         }
 
         /**
          * @param string $description
          */
-        public function setDescription($description)
-        {
+        public function setDescription($description) {
             $this->description = $description;
         }
 
-        function search($search)
-        {
+        function search($search) {
             if ((!isset($search)) || ($search == '')) {
                 throw new rdapException('Search parameter may not be empty');
             }
+            $search = trim($search);
             if ((in_array($this->getProtocol(), array(self::DOMAIN, self::NS, self::IPV4, self::IPV6))) && (!is_string($search))) {
                 throw new rdapException('Search parameter must be a string for ipv4, ipv6, domain or nameserver searches');
             }
@@ -136,7 +126,6 @@ namespace Metaregistrar\RDAP {
                             }
                             //echo $service[1][0].$this->protocols[$this->protocol][self::SEARCH].$number;
                             $rdap = file_get_contents($service[1][0] . $this->protocols[$this->protocol][self::SEARCH] . $search);
-                            //var_dump(json_decode($rdap));
                             return $this->createResponse($this->getProtocol(), $rdap);
                         }
                     }
@@ -145,8 +134,7 @@ namespace Metaregistrar\RDAP {
             return null;
         }
 
-        private function readRoot()
-        {
+        private function readRoot() {
             $rdap = file_get_contents($this->protocols[$this->protocol][self::HOME]);
             $json = json_decode($rdap);
             $this->setDescription($json->description);
@@ -155,19 +143,20 @@ namespace Metaregistrar\RDAP {
             return $json->services;
         }
 
-        private function prepareSearch($string)
-        {
+        private function prepareSearch($string) {
             switch ($this->getProtocol()) {
                 case self::IPV4:
                     list($start) = explode('.', $string);
                     return $start . '.0.0.0/8';
+                case self::DOMAIN:
+                    $extension = explode('.',$string,2);
+                    return $extension[1];
                 default:
                     return $string;
             }
         }
 
-        private function createResponse($protocol, $json)
-        {
+        private function createResponse($protocol, $json) {
             switch ($protocol) {
                 case rdap::IPV4:
                     return new rdapIpResponse($json);
