@@ -12,10 +12,10 @@ require('Protocol/autoload.php');
 //$search = 'RIPE-NCC-END-MNT';
 //$search = '81.4.97.200';
 //$search = '196.216.2.6';
-//$search = '8.8.4.4';
-$search = 'gamma.com';
-//$protocol = Metaregistrar\RDAP\rdap::IPV4;
-$protocol = Metaregistrar\RDAP\rdap::DOMAIN;
+$search = '8.8.4.4';
+//$search = 'gamma.com';
+$protocol = Metaregistrar\RDAP\rdap::IPV4;
+//$protocol = Metaregistrar\RDAP\rdap::DOMAIN;
 
 try {
     $rdap = new Metaregistrar\RDAP\rdap($protocol);

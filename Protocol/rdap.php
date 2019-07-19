@@ -31,7 +31,6 @@ namespace Metaregistrar\RDAP {
             } else {
                 $this->protocol = $protocol;
             }
-
         }
 
         /**
