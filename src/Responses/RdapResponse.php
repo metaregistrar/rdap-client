@@ -27,15 +27,15 @@ class RdapResponse {
     /**
      * @var string
      */
-    protected $handle;
+    protected $handle = '';
     /*
     * @var  string
     */
-    protected $name;
+    protected $name = '';
     /**
      * @var string
      */
-    protected $type;
+    protected $type = '';
     /**
      * @var null|RdapConformance[]
      */
