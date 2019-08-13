@@ -26,11 +26,11 @@ class RdapNameserver extends RdapObject {
     /**
      * @return string
      */
-    public function getStatus() {
+    public function getStatus(): string {
         $return = '';
         if (is_array($this->status)) {
             foreach ($this->status as $status) {
-                if (strlen($return) > 0) {
+                if ($return !== '') {
                     $return .= ', ';
                 }
                 $return .= $status;
@@ -40,11 +40,11 @@ class RdapNameserver extends RdapObject {
         return $return;
     }
 
-    public function dumpContents() {
+    public function dumpContents(): void {
         echo "- Object Classname: " . $this->getObjectClassname() . "\n";
         echo "- LDH Name: " . $this->ldhName . "\n";
         if (isset($this->status)) {
-            //echo "- Status: ".$this->status->getStatus()."\n";
+            echo "- Status: ".$this->status->getStatus()."\n";
         }
         if (isset($this->links)) {
             foreach ($this->links as $link) {

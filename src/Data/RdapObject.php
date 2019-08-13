@@ -3,6 +3,19 @@
 namespace Metaregistrar\RDAP\Data;
 
 use Metaregistrar\RDAP\RdapException;
+use Metaregistrar\RDAP\Data\RdapConformance;
+use Metaregistrar\RDAP\Data\RdapEntity;
+use Metaregistrar\RDAP\Data\RdapRemark;
+use Metaregistrar\RDAP\Data\RdapLink;
+use Metaregistrar\RDAP\Data\RdapNotice;
+use Metaregistrar\RDAP\Data\RdapEvent;
+use Metaregistrar\RDAP\Data\RdapRole;
+use Metaregistrar\RDAP\Data\RdapDescription;
+use Metaregistrar\RDAP\Data\RdapPort43;
+use Metaregistrar\RDAP\Data\RdapNameserver;
+use Metaregistrar\RDAP\Data\RdapSecureDNS;
+use Metaregistrar\RDAP\Data\RdapStatus;
+use Metaregistrar\RDAP\Data\RdapPublicId;
 
 /**
  * This is the parent class for all RdapXXXXX objects. This class will interpret the json that was received and convert it into objects that give back the data required
@@ -95,31 +108,31 @@ class RdapObject {
     private static function KeyToObjectName(string $name): string {
         switch ($name) {
             case 'rdapConformance':
-                return 'Metaregistrar\RDAP\Data\RdapConformance';
+                return RdapConformance::class;
             case 'entities':
-                return 'Metaregistrar\RDAP\Data\RdapEntity';
+                return RdapEntity::class;
             case 'remarks':
-                return 'Metaregistrar\RDAP\Data\RdapRemark';
+                return RdapRemark::class;
             case 'links':
-                return 'Metaregistrar\RDAP\Data\RdapLink';
+                return RdapLink::class;
             case 'notices':
-                return 'Metaregistrar\RDAP\Data\RdapNotice';
+                return RdapNotice::class;
             case 'events':
-                return 'Metaregistrar\RDAP\Data\RdapEvent';
+                return RdapEvent::class;
             case 'roles':
-                return 'Metaregistrar\RDAP\Data\RdapRole';
+                return RdapRole::class;
             case 'description':
-                return 'Metaregistrar\RDAP\Data\RdapDescription';
+                return RdapDescription::class;
             case 'port43':
-                return 'Metaregistrar\RDAP\Data\RdapPort43';
+                return RdapPort43::class;
             case 'nameservers':
-                return 'Metaregistrar\RDAP\Data\RdapNameserver';
+                return RdapNameserver::class;
             case 'secureDNS':
-                return 'Metaregistrar\RDAP\Data\RdapSecureDNS';
+                return RdapSecureDNS::class;
             case 'status':
-                return 'Metaregistrar\RDAP\Data\RdapStatus';
+                return RdapStatus::class;
             case 'publicIds':
-                return 'Metaregistrar\RDAP\Data\RdapPublicId';
+                return RdapPublicId::class;
             default:
                 return $name;
         }

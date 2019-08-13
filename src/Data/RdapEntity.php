@@ -60,7 +60,7 @@ class RdapEntity extends RdapObject {
         }
     }
 
-    public function getLanguage() {
+    public function getLanguage(): string {
         return $this->lang;
     }
 
@@ -71,11 +71,11 @@ class RdapEntity extends RdapObject {
     /**
      * @return string
      */
-    public function getRoles() {
+    public function getRoles(): string {
         $return = '';
         if (is_array($this->roles)) {
             foreach ($this->roles as $role) {
-                if (strlen($return) > 0) {
+                if ($return !== '') {
                     $return .= ', ';
                 }
                 $return .= $role->getRole();
@@ -88,7 +88,7 @@ class RdapEntity extends RdapObject {
     /**
      *
      */
-    public function dumpContents() {
+    public function dumpContents(): void {
         echo "- Handle: " . $this->getHandle() . "\n";
         if (isset($this->roles)) {
             foreach ($this->roles as $role) {
@@ -115,14 +115,14 @@ class RdapEntity extends RdapObject {
     /**
      * @return string|null
      */
-    public function getHandle() {
+    public function getHandle(): ?string {
         return $this->handle;
     }
 
     /**
      * @return null|string
      */
-    public function getPort43() {
+    public function getPort43(): ?string {
         return $this->port43;
     }
 }

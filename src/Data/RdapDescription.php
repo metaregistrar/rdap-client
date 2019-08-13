@@ -6,7 +6,7 @@ class RdapDescription extends RdapObject {
     /**
      * @var string|null
      */
-    protected $description = null;
+    protected $description;
 
     public function __construct($key, $content) {
         parent::__construct($key, null);
@@ -17,7 +17,7 @@ class RdapDescription extends RdapObject {
         }
     }
 
-    public function dumpContents() {
+    public function dumpContents(): void {
         echo "  - Description: " . $this->getDescription() . "\n";
     }
 

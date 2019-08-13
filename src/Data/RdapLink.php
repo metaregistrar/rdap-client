@@ -37,28 +37,28 @@ class RdapLink extends RdapObject {
         }
     }
 
-    public function dumpContents() {
+    public function dumpContents(): void {
         echo "  - Link: " . $this->rel . ': ', $this->href . " (" . $this->title . ")\n";
     }
 
     /**
      * @return string
      */
-    public function getRel() {
+    public function getRel(): string {
         return $this->rel;
     }
 
     /**
      * @return string
      */
-    public function getHref() {
+    public function getHref(): string {
         return $this->href;
     }
 
     /**
      * @return string
      */
-    public function getTitle() {
+    public function getTitle(): string {
         return $this->title;
     }
 }

@@ -114,7 +114,7 @@ final class Rdap {
             foreach ($service[0] as $number) {
                 // ip address range match
                 if (strpos($number, '-') > 0) {
-                    list($start, $end) = explode('-', $number);
+                    [$start, $end] = explode('-', $number);
                     if (($parameter >= $start) && ($parameter <= $end)) {
                         // check for slash as last character in the server name, if not, add it
                         if ($service[1][0]{strlen($service[1][0]) - 1} !== '/') {
@@ -153,7 +153,7 @@ final class Rdap {
     private function prepareSearch(string $string): string {
         switch ($this->getProtocol()) {
             case self::IPV4:
-                list($start) = explode('.', $string);
+                [$start] = explode('.', $string);
 
                 return $start . '.0.0.0/8';
             case self::DOMAIN:

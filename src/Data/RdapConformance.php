@@ -5,7 +5,7 @@ namespace Metaregistrar\RDAP\Data;
 class RdapConformance extends RdapObject {
     protected $rdapConformance;
 
-    public function dumpContents() {
+    public function dumpContents(): void {
         echo '- ' . $this->getRdapConformance() . "\n";
     }
 
@@ -19,7 +19,7 @@ class RdapConformance extends RdapObject {
     /**
      * @param mixed $rdapConformance
      */
-    public function setRdapConformance($rdapConformance) {
+    public function setRdapConformance($rdapConformance): void {
         $this->rdapConformance = $rdapConformance;
     }
 }

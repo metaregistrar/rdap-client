@@ -9,18 +9,11 @@ class RdapStatus extends RdapObject {
      */
     protected $rdapStatus = null;
 
-    public function dumpContents() {
+    public function dumpContents(): void {
         echo "- Status: " . $this->getStatus() . "\n";
     }
 
     public function getStatus() {
-        if (isset($this->rdapStatus)) {
-            return $this->rdapStatus;
-        }
-        if (isset($this->{0})) {
-            return $this->{0};
-        }
-
-        return null;
+        return $this->rdapStatus ?? $this->{0} ?? null;
     }
 }

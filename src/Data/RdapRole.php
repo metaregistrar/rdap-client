@@ -3,7 +3,7 @@
 namespace Metaregistrar\RDAP\Data;
 
 class RdapRole extends RdapObject {
-    public function dumpContents() {
+    public function dumpContents(): void {
         echo "- Role: " . $this->getRole() . "\n";
     }
 

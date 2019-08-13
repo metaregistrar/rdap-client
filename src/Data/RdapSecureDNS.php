@@ -39,14 +39,14 @@ class RdapSecureDNS extends RdapObject {
     /**
      * @return boolean
      */
-    public function isRdapSecureDNS() {
+    public function isRdapSecureDNS(): bool {
         return $this->rdapSecureDNS;
     }
 
     /**
      *
      */
-    public function dumpContents() {
+    public function dumpContents(): void {
         if ($this->delegationSigned) {
             echo "- Domain name is signed\n";
         } else {
@@ -63,14 +63,14 @@ class RdapSecureDNS extends RdapObject {
     /**
      * @return null|string
      */
-    public function getKeyTag() {
+    public function getKeyTag(): ?string {
         return $this->keyTag;
     }
 
     /**
      *
      */
-    public function dumpDigest() {
+    public function dumpDigest(): void {
         echo "- Delegation signed: " . $this->getDelegationSigned() . "\n";
         echo "- Max sig life: " . $this->getMaxSigLife() . "\n";
         echo "- Keytag: " . $this->getKeyTag() . "\n";
@@ -82,49 +82,49 @@ class RdapSecureDNS extends RdapObject {
     /**
      * @return null|string
      */
-    public function getDelegationSigned() {
+    public function getDelegationSigned(): ?string {
         return $this->delegationSigned;
     }
 
     /**
      * @return int|null
      */
-    public function getMaxSigLife() {
+    public function getMaxSigLife(): ?int {
         return $this->maxSigLife;
     }
 
     /**
      * @return null|string
      */
-    public function getAlgorithm() {
+    public function getAlgorithm(): ?string {
         return $this->algorithm;
     }
 
     /**
      * @return null|string
      */
-    public function getDigestType() {
+    public function getDigestType(): ?string {
         return $this->digestType;
     }
 
     /**
      * @return null|string
      */
-    public function getDigest() {
+    public function getDigest(): ?string {
         return $this->digest;
     }
 
     /**
      * @return array|null
      */
-    public function getDsData() {
+    public function getDsData(): ?array {
         return $this->dsData;
     }
 
     /**
      *
      */
-    public function dumpDnskey() {
+    public function dumpDnskey(): void {
         echo "- Delegation signed: " . $this->getDelegationSigned() . "\n";
         echo "- Max sig life: " . $this->getMaxSigLife() . "\n";
         echo "- DNS Key: " . $this->getDsData() . "\n";

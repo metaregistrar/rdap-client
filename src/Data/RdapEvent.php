@@ -19,11 +19,11 @@ class RdapEvent extends RdapObject {
     /**
      * @return array|null
      */
-    public function getEvents() {
+    public function getEvents(): ?array {
         return $this->events;
     }
 
-    public function dumpContents() {
+    public function dumpContents(): void {
         if (is_array($this->events)) {
             foreach ($this->events as $action => $date) {
                 echo "  - $action: $date\n";

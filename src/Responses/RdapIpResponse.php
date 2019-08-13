@@ -11,28 +11,28 @@ class RdapIpResponse extends RdapResponse {
     /**
      * @return string
      */
-    public function getStartAddress() {
+    public function getStartAddress(): string {
         return $this->startAddress;
     }
 
     /**
      * @return string
      */
-    public function getEndAddress() {
+    public function getEndAddress(): string {
         return $this->endAddress;
     }
 
     /**
      * @return string
      */
-    public function getIpVersion() {
+    public function getIpVersion(): string {
         return $this->ipVersion;
     }
 
     /**
      * @return string
      */
-    public function getCountry() {
+    public function getCountry(): string {
         return $this->country;
     }
 }

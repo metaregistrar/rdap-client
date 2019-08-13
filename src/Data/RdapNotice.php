@@ -19,7 +19,7 @@ class RdapNotice extends RdapObject {
         parent::__construct($key, $content);
     }
 
-    public function dumpContents() {
+    public function dumpContents(): void {
         echo '- ' . $this->getTitle() . ": " . $this->getType() . "\n";
         if (is_array($this->description)) {
             foreach ($this->description as $descr) {
@@ -47,7 +47,7 @@ class RdapNotice extends RdapObject {
     /**
      * @return array
      */
-    public function getDescription() {
+    public function getDescription(): array {
         $return = '';
         if (is_array($this->description)) {
             foreach ($this->description as $descr) {

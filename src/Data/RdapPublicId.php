@@ -15,7 +15,7 @@ class RdapPublicId extends RdapObject {
         }
     }
 
-    public function dumpContents() {
+    public function dumpContents(): void {
         foreach ($this->ids as $type => $identifier) {
             echo "- $type: $identifier\n";
         }

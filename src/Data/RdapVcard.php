@@ -27,8 +27,8 @@ class RdapVcard {
         if (is_array($extras)) {
             if (isset($extras['type'])) {
                 if (is_array($extras['type'])) {
-                    foreach ($extras['type'] as $type) {
-                        $this->contenttypes[] = $type;
+                    foreach ($extras['type'] as $contentType) {
+                        $this->contenttypes[] = $contentType;
                     }
                 } else {
                     $this->contenttypes[] = $extras['type'];
@@ -42,33 +42,33 @@ class RdapVcard {
         $this->content   = $contents;
     }
 
-    public function getName() {
+    public function getName(): ?string {
         return $this->name;
     }
 
-    public function getFieldtype() {
+    public function getFieldtype(): ?string {
         return $this->fieldtype;
     }
 
-    public function getContentTypes() {
+    public function getContentTypes(): ?array {
         return $this->contenttypes;
     }
 
-    public function dumpContents() {
+    public function dumpContents(): void {
         echo '  - ' . $this->getContent() . "\n";
     }
 
-    public function getContent() {
-        if ($this->name == 'version') {
+    public function getContent(): ?string {
+        if ($this->name === 'version') {
             return "Version: " . $this->content;
         }
-        if ($this->name == 'tel') {
+        if ($this->name === 'tel') {
             return "Type: " . $this->fieldtype . ", Preference: " . $this->preference . ", Content: " . $this->content . " (" . $this->dumpContentTypes() . ")";
         }
-        if ($this->name == 'email') {
+        if ($this->name === 'email') {
             return "Type: " . $this->name . ", Content: " . $this->content;
         }
-        if ($this->name == 'adr') {
+        if ($this->name === 'adr') {
             $return = "Type: " . $this->name . ", Content: ";
             foreach ($this->content as $content) {
                 if (is_array($content)) {
@@ -76,7 +76,7 @@ class RdapVcard {
                         $return .= $cont . " ";
                     }
                 } else {
-                    if (strlen(trim($content)) > 0) {
+                    if (trim($content) !== '') {
                         $return .= $content . " ";
                     }
                 }
@@ -84,24 +84,24 @@ class RdapVcard {
 
             return $return;
         }
-        if ($this->name == 'fn') {
+        if ($this->name === 'fn') {
             return "Type: " . $this->name . ", Content: " . $this->content;
         }
-        if ($this->name == 'kind') {
+        if ($this->name === 'kind') {
             return "Kind: " . $this->content;
         }
-        if ($this->name == 'ISO-3166-1-alpha-2') {
+        if ($this->name === 'ISO-3166-1-alpha-2') {
             return "Language: " . $this->content . " (" . $this->name . ")";
         }
 
         return null;
     }
 
-    public function dumpContentTypes() {
+    public function dumpContentTypes(): string {
         $return = '';
         if (is_array($this->contenttypes)) {
             foreach ($this->contenttypes as $type) {
-                if (strlen($return) > 0) {
+                if ($return !== '') {
                     $return .= ', ';
                 }
                 $return .= $type;
