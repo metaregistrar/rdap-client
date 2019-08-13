@@ -8,5 +8,10 @@
       "name": "Ewout de Graaf",
       "email": "ewout@metaregistrar.com"
     }
-  ]
+  ],
+  "autoload": {
+    "psr-4": {
+      "Metaregistrar\\": "Metaregistrar"
+    }
+  }
 }
