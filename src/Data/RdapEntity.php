@@ -1,12 +1,12 @@
 <?php
+
 namespace Metaregistrar\RDAP\Data;
 
-class RdapEntity extends RdapObject
-{
+class RdapEntity extends RdapObject {
     /**
      * @var string|null
      */
-    protected $type=null;
+    protected $type = null;
     /**
      * @var string
      */
@@ -16,7 +16,7 @@ class RdapEntity extends RdapObject
      */
     protected $handle;
     /**
-     * @var null|rdapStatus[]
+     * @var null|RdapStatus[]
      */
     protected $status = null;
     /**
@@ -24,32 +24,31 @@ class RdapEntity extends RdapObject
      */
     protected $port43 = null;
     /**
-     * @var rdapVcard[]|null
+     * @var RdapVcard[]|null
      */
-    protected $vcards = null;
-    protected $vcardArray = null;
+    protected $vcards          = null;
+    protected $vcardArray      = null;
     protected $objectClassName = null;
-    protected $remarks = array();
+    protected $remarks         = array();
     /**
-     * @var rdapRole[]|null
+     * @var RdapRole[]|null
      */
     protected $roles = null;
     /**
-     * @var null|rdapPublicId[]
+     * @var null|RdapPublicId[]
      */
     protected $publicIds = null;
-    protected $entities = null;
+    protected $entities  = null;
 
-    public function __construct($key, $content)
-    {
+    public function __construct($key, $content) {
         parent::__construct($key, $content);
-        if (count($this->vcardArray)>0) {
-            foreach ($this->vcardArray as $id=>$vcard) {
+        if (count($this->vcardArray) > 0) {
+            foreach ($this->vcardArray as $id => $vcard) {
                 if (is_array($vcard)) {
                     foreach ($vcard as $v) {
                         if (is_array($v)) {
                             foreach ($v as $card) {
-                                $this->vcards[] = new rdapVcard($card[0], $card[1], $card[2], $card[3]);
+                                $this->vcards[] = new RdapVcard($card[0], $card[1], $card[2], $card[3]);
                             }
                         }
                     }
@@ -61,60 +60,43 @@ class RdapEntity extends RdapObject
         }
     }
 
-    /**
-     * @return string|null
-     */
-    public function getHandle()
-    {
-        return $this->handle;
+    public function getLanguage() {
+        return $this->lang;
     }
 
     /*
      * return string|null
      */
-    public function getLanguage()
-    {
-        return $this->lang;
-    }
-
-    /**
-     * @return null|string
-     */
-    public function getPort43()
-    {
-        return $this->port43;
-    }
 
     /**
      * @return string
      */
-    public function getRoles()
-    {
+    public function getRoles() {
         $return = '';
         if (is_array($this->roles)) {
             foreach ($this->roles as $role) {
-                if (strlen($return)>0) {
+                if (strlen($return) > 0) {
                     $return .= ', ';
                 }
                 $return .= $role->getRole();
             }
         }
+
         return $return;
     }
 
     /**
      *
      */
-    public function dumpContents()
-    {
-        echo "- Handle: ".$this->getHandle()."\n";
+    public function dumpContents() {
+        echo "- Handle: " . $this->getHandle() . "\n";
         if (isset($this->roles)) {
             foreach ($this->roles as $role) {
-                echo "- Role: ".$role->getRole()."\n";
+                echo "- Role: " . $role->getRole() . "\n";
             }
         }
         if (isset($this->port43)) {
-            echo "- Port 43 whois: ".$this->getPort43()."\n";
+            echo "- Port 43 whois: " . $this->getPort43() . "\n";
         }
         if (isset($this->publicIds)) {
             if (is_array($this->publicIds)) {
@@ -123,10 +105,24 @@ class RdapEntity extends RdapObject
                 }
             }
         }
-        if ((is_array($this->vcards)) && (count($this->vcards)>0)) {
+        if ((is_array($this->vcards)) && (count($this->vcards) > 0)) {
             foreach ($this->vcards as $vcard) {
                 $vcard->dumpContents();
             }
         }
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getHandle() {
+        return $this->handle;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getPort43() {
+        return $this->port43;
     }
 }

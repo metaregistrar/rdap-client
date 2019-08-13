@@ -1,15 +1,14 @@
 <?php
+
 namespace Metaregistrar\RDAP\Data;
 
-class RdapDescription extends RdapObject
-{
+class RdapDescription extends RdapObject {
     /**
      * @var string|null
      */
-    protected $description=null;
+    protected $description = null;
 
-    public function __construct($key, $content)
-    {
+    public function __construct($key, $content) {
         parent::__construct($key, null);
         if (is_array($content)) {
             $this->description = $content[0];
@@ -18,13 +17,11 @@ class RdapDescription extends RdapObject
         }
     }
 
-    public function dumpContents()
-    {
-        echo "  - Description: ".$this->getDescription()."\n";
+    public function dumpContents() {
+        echo "  - Description: " . $this->getDescription() . "\n";
     }
 
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 }

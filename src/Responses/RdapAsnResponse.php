@@ -1,6 +1,6 @@
 <?php
+
 namespace Metaregistrar\RDAP\Responses;
 
-class RdapAsnResponse extends RdapResponse
-{
+class RdapAsnResponse extends RdapResponse {
 }

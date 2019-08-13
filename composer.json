@@ -3,6 +3,10 @@
   "description": "A php client to query rdap (formerly whois) services",
   "minimum-stability": "stable",
   "license": "proprietary",
+  "require": {
+    "php": ">=7.2",
+    "ext-json": "*"
+  },
   "authors": [
     {
       "name": "Ewout de Graaf",

@@ -1,6 +1,8 @@
 <?php
+
 namespace Metaregistrar\RDAP;
 
-class RdapException extends \Exception
-{
+use Exception;
+
+class RdapException extends Exception {
 }

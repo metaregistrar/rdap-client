@@ -1,16 +1,29 @@
 <?php
+
 namespace Metaregistrar\RDAP\Responses;
 
-class RdapResponse
-{
+use Metaregistrar\RDAP\Data\RdapConformance;
+use Metaregistrar\RDAP\Data\RdapEntity;
+use Metaregistrar\RDAP\Data\RdapEvent;
+use Metaregistrar\RDAP\Data\RdapLink;
+use Metaregistrar\RDAP\Data\RdapNameserver;
+use Metaregistrar\RDAP\Data\RdapNotice;
+use Metaregistrar\RDAP\Data\RdapObject;
+use Metaregistrar\RDAP\Data\RdapPort43;
+use Metaregistrar\RDAP\Data\RdapRemark;
+use Metaregistrar\RDAP\Data\RdapSecureDNS;
+use Metaregistrar\RDAP\Data\RdapStatus;
+use Metaregistrar\RDAP\RdapException;
+
+class RdapResponse {
     /**
      * @var string|null
      */
-    protected $objectClassName=null;
+    protected $objectClassName = null;
     /**
      * @var string|null
      */
-    protected $ldhName=null;
+    protected $ldhName = null;
     /**
      * @var string
      */
@@ -24,49 +37,54 @@ class RdapResponse
      */
     protected $type;
     /**
-     * @var null|rdapConformance[]
+     * @var null|RdapConformance[]
      */
-    protected $rdapConformance=null;
+    protected $rdapConformance = null;
     /**
-     * @var null|rdapEntity[]
+     * @var null|RdapEntity[]
      */
     protected $entities = null;
     /**
-     * @var null|rdapLink[]
+     * @var null|RdapLink[]
      */
     protected $links = null;
     /**
-     * @var null|rdapRemark[]
+     * @var null|RdapRemark[]
      */
     protected $remarks = null;
     /**
-     * @var null|rdapNotice[]
+     * @var null|RdapNotice[]
      */
     protected $notices = null;
     /**
-     * @var null|rdapEvent[]
+     * @var null|RdapEvent[]
      */
     protected $events = null;
     /**
-     * @var null|rdapPort43[]
+     * @var null|RdapPort43[]
      */
     protected $port43;
     /**
-     * @var null|rdapNameserver[]
+     * @var null|RdapNameserver[]
      */
-    protected $nameservers=null;
+    protected $nameservers = null;
     /**
-     * @var null|rdapStatus[]
+     * @var null|RdapStatus[]
      */
-    protected $status=null;
+    protected $status = null;
     /**
-     * @var null|rdapSecureDNS[]
+     * @var null|RdapSecureDNS[]
      */
     protected $secureDNS = null;
 
-
-    public function __construct($json)
-    {
+    /**
+     * RdapResponse constructor.
+     *
+     * @param string $json
+     *
+     * @throws \Metaregistrar\RDAP\RdapException
+     */
+    public function __construct(string $json) {
         if ($data = json_decode($json, true)) {
             foreach ($data as $key => $value) {
                 if (is_array($value)) {
@@ -80,129 +98,112 @@ class RdapResponse
                 }
             }
         } else {
-            throw new rdapException('Response object could not be validated as proper JSON');
+            throw new RdapException('Response object could not be validated as proper JSON');
         }
     }
-
 
     /**
      * @return string
      */
-    public function getHandle()
-    {
+    public function getHandle(): string {
         return $this->handle;
     }
 
     /**
-     * @return rdapConformance[]|null
+     * @return RdapConformance[]|null
      */
-    public function getConformance()
-    {
+    public function getConformance(): ?array {
         return $this->rdapConformance;
     }
 
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName(): string {
         return $this->name;
     }
 
     /**
      * @return string
      */
-    public function getType()
-    {
+    public function getType(): string {
         return $this->type;
     }
 
-
     /**
-     * @return rdapEntity[]|null
+     * @return RdapEntity[]|null
      */
-    public function getEntities()
-    {
+    public function getEntities(): ?array {
         return $this->entities;
     }
 
     /**
-     * @return rdapLink[]|null
+     * @return RdapLink[]|null
      */
-    public function getLinks()
-    {
+    public function getLinks(): ?array {
         return $this->links;
     }
 
     /**
-     * @return rdapRemark[]|null
+     * @return RdapRemark[]|null
      */
-    public function getRemarks()
-    {
+    public function getRemarks(): ?array {
         return $this->remarks;
     }
 
     /**
-     * @return rdapNotice[]|null
+     * @return RdapNotice[]|null
      */
-    public function getNotices()
-    {
+    public function getNotices(): ?array {
         return $this->notices;
     }
 
     /**
      * @return string
      */
-    public function getPort43()
-    {
+    public function getPort43(): string {
         return $this->port43;
     }
 
     /**
-     * @return rdapNameserver[]|null
+     * @return RdapNameserver[]|null
      */
-    public function getNameservers()
-    {
+    public function getNameservers(): ?array {
         return $this->nameservers;
     }
 
     /**
-     * @return rdapStatus[]|null
+     * @return RdapStatus[]|null
      */
-    public function getStatus()
-    {
+    public function getStatus(): ?array {
         return $this->status;
     }
 
     /**
-     * @return rdapEvent[]|null
+     * @return RdapEvent[]|null
      */
-    public function getEvents()
-    {
+    public function getEvents(): ?array {
         return $this->events;
     }
 
     /**
      * @return string|null
      */
-    public function getClassname()
-    {
+    public function getClassname(): ?string {
         return $this->objectClassName;
     }
 
     /**
      * @return string|null
      */
-    public function getLDHName()
-    {
+    public function getLDHName(): ?string {
         return $this->ldhName;
     }
 
     /**
-     * @return rdapSecureDNS[]|null
+     * @return RdapSecureDNS[]|null
      */
-    public function getSecureDNS()
-    {
+    public function getSecureDNS(): ?array {
         return $this->secureDNS;
     }
 }

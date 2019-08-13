@@ -1,8 +1,8 @@
 <?php
+
 namespace Metaregistrar\RDAP\Data;
 
-class RdapNameserver extends RdapObject
-{
+class RdapNameserver extends RdapObject {
     /**
      * @var string
      */
@@ -12,38 +12,37 @@ class RdapNameserver extends RdapObject
      */
     protected $ldhName;
     /**
-     * @var null|rdapStatus
+     * @var null|RdapStatus
      */
     protected $status;
     /**
-     * @var rdapLink[]|null
+     * @var RdapLink[]|null
      */
-    protected $links=null;
-    /** @var rdapEvent[]  */
-    protected $events = null;
+    protected $links = null;
+    /** @var RdapEvent[] */
+    protected $events      = null;
     protected $ipAddresses = null;
 
     /**
      * @return string
      */
-    public function getStatus()
-    {
+    public function getStatus() {
         $return = '';
         if (is_array($this->status)) {
             foreach ($this->status as $status) {
-                if (strlen($return)>0) {
+                if (strlen($return) > 0) {
                     $return .= ', ';
                 }
                 $return .= $status;
             }
         }
+
         return $return;
     }
 
-    public function dumpContents()
-    {
-        echo "- Object Classname: ".$this->getObjectClassname()."\n";
-        echo "- LDH Name: ".$this->ldhName."\n";
+    public function dumpContents() {
+        echo "- Object Classname: " . $this->getObjectClassname() . "\n";
+        echo "- LDH Name: " . $this->ldhName . "\n";
         if (isset($this->status)) {
             //echo "- Status: ".$this->status->getStatus()."\n";
         }

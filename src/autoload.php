@@ -2,10 +2,10 @@
 spl_autoload_register('protocolLoader');
 
 function protocolLoader($className) {
-    $className = str_replace('Metaregistrar\RDAP\\','',$className);
-    loadfile($className,'');
-    loadfile($className,'data');
-    loadfile($className,'responses');
+    $className = str_replace('Metaregistrar\RDAP\\', '', $className);
+    loadfile($className, '');
+    loadfile($className, 'data');
+    loadfile($className, 'responses');
 }
 
 function loadfile($className, $directory) {
@@ -14,7 +14,7 @@ function loadfile($className, $directory) {
     } else {
         $delimiter = '/';
     }
-    if (strlen($directory)>0) {
+    if (strlen($directory) > 0) {
         $directory .= $delimiter;
     }
     $fileName = __DIR__ . $delimiter . $directory . $className . '.php';;

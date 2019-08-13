@@ -1,28 +1,26 @@
 <?php
+
 namespace Metaregistrar\RDAP\Data;
 
-class RdapNotice extends RdapObject
-{
+class RdapNotice extends RdapObject {
     public $title = null;
-    public $type = null;
+    public $type  = null;
     /**
-     * @var rdapDescription[]|null
+     * @var RdapDescription[]|null
      */
     public $description = null;
     /**
-     * @var rdapLink[]|null
+     * @var RdapLink[]|null
      */
     public $links = null;
 
-    public function __construct($key, $content)
-    {
+    public function __construct($key, $content) {
         $this->objectClassName = 'Notice';
         parent::__construct($key, $content);
     }
 
-    public function dumpContents()
-    {
-        echo '- '.$this->getTitle().": ".$this->getType()."\n";
+    public function dumpContents() {
+        echo '- ' . $this->getTitle() . ": " . $this->getType() . "\n";
         if (is_array($this->description)) {
             foreach ($this->description as $descr) {
                 $descr->dumpContents();
@@ -38,31 +36,27 @@ class RdapNotice extends RdapObject
     /**
      * @return null
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 
+    public function getType() {
+        return $this->type;
+    }
 
     /**
      * @return array
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         $return = '';
         if (is_array($this->description)) {
             foreach ($this->description as $descr) {
-                $return .= $descr."\n";
+                $return .= $descr . "\n";
             }
         } else {
             $return = $this->description;
         }
+
         return $return;
-    }
-
-
-    public function getType()
-    {
-        return $this->type;
     }
 }

@@ -1,8 +1,8 @@
 <?php
+
 namespace Metaregistrar\RDAP\Data;
 
-class RdapLink extends RdapObject
-{
+class RdapLink extends RdapObject {
     /**
      * @var string
      */
@@ -20,50 +20,45 @@ class RdapLink extends RdapObject
      */
     protected $value;
 
-    public function __construct($key, $content)
-    {
+    public function __construct($key, $content) {
         parent::__construct($key, null);
         if (is_array($content)) {
             if (isset($content[0])) {
-                $this->rel = $content[0]['rel'];
-                $this->href = $content[0]['href'];
-                $this->type = $content[0]['type'];
+                $this->rel   = $content[0]['rel'];
+                $this->href  = $content[0]['href'];
+                $this->type  = $content[0]['type'];
                 $this->value = $content[0]['value'];
             } else {
-                $this->rel = $content['rel'];
-                $this->href = $content['href'];
-                $this->type = $content['type'];
+                $this->rel   = $content['rel'];
+                $this->href  = $content['href'];
+                $this->type  = $content['type'];
                 $this->value = $content['value'];
             }
         }
     }
 
-    public function dumpContents()
-    {
-        echo "  - Link: ".$this->rel.': ',$this->href." (".$this->title.")\n";
+    public function dumpContents() {
+        echo "  - Link: " . $this->rel . ': ', $this->href . " (" . $this->title . ")\n";
     }
 
     /**
      * @return string
      */
-    public function getRel()
-    {
+    public function getRel() {
         return $this->rel;
     }
 
     /**
      * @return string
      */
-    public function getHref()
-    {
+    public function getHref() {
         return $this->href;
     }
 
     /**
      * @return string
      */
-    public function getTitle()
-    {
+    public function getTitle() {
         return $this->title;
     }
 }
