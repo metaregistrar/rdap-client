@@ -44,7 +44,7 @@ class RdapNameserver extends RdapObject {
         echo "- Object Classname: " . $this->getObjectClassname() . "\n";
         echo "- LDH Name: " . $this->ldhName . "\n";
         if (isset($this->status)) {
-            echo "- Status: ".$this->status->getStatus()."\n";
+            //echo "- Status: ".$this->status->getStatus()."\n";
         }
         if (isset($this->links)) {
             foreach ($this->links as $link) {
