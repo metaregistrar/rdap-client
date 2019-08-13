@@ -28,7 +28,7 @@ class Rdap
     public function __construct($protocol)
     {
         if (($protocol != self::ASN) && ($protocol != self::IPV4) && ($protocol != self::IPV6) && ($protocol != self::DOMAIN)) {
-            throw new rdapException('Protocol ' . $protocol . ' is not recognized by this rdap client implementation');
+            throw new RdapException('Protocol ' . $protocol . ' is not recognized by this rdap client implementation');
         }
         
         $this->protocol = $protocol;
@@ -101,14 +101,14 @@ class Rdap
     public function search($search)
     {
         if ((!isset($search)) || ($search == '')) {
-            throw new rdapException('Search parameter may not be empty');
+            throw new RdapException('Search parameter may not be empty');
         }
         $search = trim($search);
         if ((in_array($this->getProtocol(), array(self::DOMAIN, self::NS, self::IPV4, self::IPV6))) && (!is_string($search))) {
-            throw new rdapException('Search parameter must be a string for ipv4, ipv6, domain or nameserver searches');
+            throw new RdapException('Search parameter must be a string for ipv4, ipv6, domain or nameserver searches');
         }
         if (($this->getProtocol() == self::ASN) && (!is_numeric($search))) {
-            throw new rdapException('Search parameter must be a number or a string with numeric info for asn searches');
+            throw new RdapException('Search parameter must be a number or a string with numeric info for asn searches');
         }
         $parameter = $this->prepareSearch($search);
         $services = $this->readRoot();
@@ -169,12 +169,12 @@ class Rdap
     private function createResponse($protocol, $json)
     {
         switch ($protocol) {
-                case rdap::IPV4:
-                    return new rdapIpResponse($json);
-                case rdap::ASN:
-                    return new rdapAsnResponse($json);
+                case Rdap::IPV4:
+                    return new RdapIpResponse($json);
+                case Rdap::ASN:
+                    return new RdapAsnResponse($json);
                 default:
-                    return new rdapResponse($json);
+                    return new RdapResponse($json);
             }
     }
 }

@@ -2,6 +2,7 @@
 namespace Metaregistry\Rdap;
 
 use Metaregistrar\RDAP\Rdap;
+use Metaregistrar\RDAP\RdapException;
 
 class RdapTest extends \PHPUnit\Framework\TestCase
 {
@@ -13,11 +14,10 @@ class RdapTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse(false);
     }
 
-    public function testRdap() {
-        $protocol = Rdap::IPV4;
+    public function testEmptySearch() {
+        $rdap = new Rdap(Rdap::IPV4);
 
-        $rdap = new Rdap($protocol);
-
-        $this->assertInstanceOf(Rdap::class, $rdap);
+        $this->expectException(RdapException::class);
+        $rdap->search('');
     }
 }
