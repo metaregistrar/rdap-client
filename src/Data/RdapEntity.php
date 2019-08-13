@@ -42,7 +42,7 @@ class RdapEntity extends RdapObject {
 
     public function __construct($key, $content) {
         parent::__construct($key, $content);
-        if (count($this->vcardArray) > 0) {
+        if ($this->vcardArray && count($this->vcardArray) > 0) {
             foreach ($this->vcardArray as $id => $vcard) {
                 if (is_array($vcard)) {
                     foreach ($vcard as $v) {

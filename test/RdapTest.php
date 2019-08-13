@@ -2,6 +2,7 @@
 
 namespace Metaregistry\Rdap;
 
+use Metaregistrar\RDAP\Data\RdapNameserver;
 use Metaregistrar\RDAP\Rdap;
 use Metaregistrar\RDAP\RdapException;
 use PHPUnit\Framework\TestCase;
@@ -40,5 +41,10 @@ final class RdapTest extends TestCase {
         $result = $rdap->search('udag.com');
 
         $this->assertNotNull($result);
+
+        $nameserver = $result->getNameservers();
+        $this->assertIsArray($nameserver);
+
+        $this->assertInstanceOf(RdapNameserver::class, $nameserver[0]);
     }
 }

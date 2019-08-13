@@ -55,49 +55,48 @@ class RdapObject {
     }
 
     public static function KeyToObject($name, $content) {
-        //echo "KEYTOOBJECT $name\n";
         $name = self::KeyToObjectName($name);
         if (class_exists($name)) {
             return new $name($name, $content);
-        } else {
-            return $content;
         }
+
+        return $content;
     }
 
-    public static function KeyToObjectName($name) {
+    public static function KeyToObjectName($name): ?string {
         switch ($name) {
             case 'rdapConformance':
-                return 'Metaregistrar\RDAP\RdapConformance';
+                return 'Metaregistrar\RDAP\Data\RdapConformance';
             case 'entities':
-                return 'Metaregistrar\RDAP\RdapEntity';
+                return 'Metaregistrar\RDAP\Data\RdapEntity';
             case 'remarks':
-                return 'Metaregistrar\RDAP\rdapRemark';
+                return 'Metaregistrar\RDAP\Data\RdapRemark';
             case 'links':
-                return 'Metaregistrar\RDAP\rdapLink';
+                return 'Metaregistrar\RDAP\Data\RdapLink';
             case 'notices':
-                return 'Metaregistrar\RDAP\rdapNotice';
+                return 'Metaregistrar\RDAP\Data\RdapNotice';
             case 'events':
-                return 'Metaregistrar\RDAP\rdapEvent';
+                return 'Metaregistrar\RDAP\Data\RdapEvent';
             case 'roles':
-                return 'Metaregistrar\RDAP\rdapRole';
+                return 'Metaregistrar\RDAP\Data\RdapRole';
             case 'description':
-                return 'Metaregistrar\RDAP\rdapDescription';
+                return 'Metaregistrar\RDAP\Data\RdapDescription';
             case 'port43':
-                return 'Metaregistrar\RDAP\rdapPort43';
+                return 'Metaregistrar\RDAP\Data\RdapPort43';
             case 'nameservers':
-                return 'Metaregistrar\RDAP\rdapNameserver';
+                return 'Metaregistrar\RDAP\Data\RdapNameserver';
             case 'secureDNS':
-                return 'Metaregistrar\RDAP\rdapSecureDNS';
+                return 'Metaregistrar\RDAP\Data\RdapSecureDNS';
             case 'status':
-                return 'Metaregistrar\RDAP\rdapStatus';
+                return 'Metaregistrar\RDAP\Data\RdapStatus';
             case 'publicIds':
-                return 'Metaregistrar\RDAP\rdapPublicId';
+                return 'Metaregistrar\RDAP\Data\RdapPublicId';
             default:
                 return $name;
         }
     }
 
-    public function getObjectClassname() {
+    public function getObjectClassname(): string {
         return $this->objectClassName;
     }
 }
