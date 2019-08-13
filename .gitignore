@@ -1,6 +1,8 @@
 # Created by .ignore support plugin (hsz.mobi)
 .gitignore
 .idea/
+.vscode
 Examples/
 gewenstobject.txt
 jsonobject.txt
+vendor/

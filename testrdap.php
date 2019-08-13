@@ -1,10 +1,5 @@
 <?php
-
-
-/**
- *
- */
-require('Protocol/autoload.php');
+namespace Metaregistry;
 
 
 //$search = 59980;
@@ -14,11 +9,11 @@ require('Protocol/autoload.php');
 //$search = '196.216.2.6';
 $search = '8.8.4.4';
 //$search = 'gamma.com';
-$protocol = Metaregistrar\RDAP\rdap::IPV4;
+$protocol = Metaregistrar\RDAP\Rdap::IPV4;
 //$protocol = Metaregistrar\RDAP\rdap::DOMAIN;
 
 try {
-    $rdap = new Metaregistrar\RDAP\rdap($protocol);
+    $rdap = new Metaregistrar\RDAP\rRap($protocol);
     $test = $rdap->search($search);
 
     if ($test) {
