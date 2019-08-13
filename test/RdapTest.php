@@ -2,7 +2,9 @@
 
 namespace Metaregistry\Rdap;
 
+use Metaregistrar\RDAP\Data\RdapEntity;
 use Metaregistrar\RDAP\Data\RdapNameserver;
+use Metaregistrar\RDAP\Data\RdapNotice;
 use Metaregistrar\RDAP\Rdap;
 use Metaregistrar\RDAP\RdapException;
 use PHPUnit\Framework\TestCase;
@@ -35,7 +37,7 @@ final class RdapTest extends TestCase {
         new Rdap('');
     }
 
-    public function testSearch(): void {
+    public function testDomainSearch(): void {
         $rdap = new Rdap(Rdap::DOMAIN);
 
         $result = $rdap->search('udag.com');
@@ -46,5 +48,24 @@ final class RdapTest extends TestCase {
         $this->assertIsArray($nameserver);
 
         $this->assertInstanceOf(RdapNameserver::class, $nameserver[0]);
+        foreach ($result->getEntities() as $entity) {
+            $this->assertInstanceOf(RdapEntity::class, $entity);
+        }
+    }
+
+    public function testIpv4Search(): void {
+        $rdap = new Rdap(Rdap::IPV4);
+
+        $result = $rdap->search('8.8.4.4');
+
+        $this->assertNotNull($result);
+
+        $notices = $result->getNotices();
+        $this->assertIsArray($notices);
+
+        $this->assertInstanceOf(RdapNotice::class, $notices[0]);
+        foreach ($result->getEntities() as $entity) {
+            $this->assertInstanceOf(RdapEntity::class, $entity);
+        }
     }
 }

@@ -14,24 +14,26 @@ class RdapObject {
      */
     protected $objectClassName;
 
-    public function __construct($key, $content) {
+    /**
+     * RdapObject constructor.
+     *
+     * @param string $key
+     * @param mixed  $content
+     */
+    public function __construct(string $key, $content) {
         if ($content) {
             if (is_array($content)) {
-                foreach ($content as $ck => $cv) {
-                    if (is_array($cv)) {
-                        if (is_numeric($ck)) {
-                            if (is_array($cv)) {
-                                foreach ($cv as $k => $v) {
-                                    $this->{$k}[] = self::createObject($k, $v);
-                                }
-                            } else {
-                                $this->{$ck} = $cv;
+                foreach ($content as $contentKey => $contentValue) {
+                    if (is_array($contentValue)) {
+                        if (is_numeric($contentKey)) {
+                            foreach ($contentValue as $k => $v) {
+                                $this->{$k}[] = self::createObject($k, $v);
                             }
                         } else {
-                            $this->{$ck}[] = self::createObject($ck, $cv);
+                            $this->{$contentKey}[] = self::createObject($contentKey, $contentValue);
                         }
                     } else {
-                        $this->{$ck} = $cv;
+                        $this->{$contentKey} = $contentValue;
                     }
                 }
             } else {
@@ -41,20 +43,19 @@ class RdapObject {
         }
     }
 
-    public static function createObject($key, $value) {
-        //echo "CREATEOBJECT $key\n";
+    private static function createObject(string $key, $value) {
         if (is_numeric($key)) {
             if (is_array($value)) {
                 die("$key VALUE MAG GEEN ARRAY ZIJN\n");
-            } else {
-                return $value;
             }
-        } else {
-            return self::KeyToObject($key, $value);
+
+            return $value;
         }
+
+        return self::KeyToObject($key, $value);
     }
 
-    public static function KeyToObject($name, $content) {
+    public static function KeyToObject(string $name, $content) {
         $name = self::KeyToObjectName($name);
         if (class_exists($name)) {
             return new $name($name, $content);
@@ -63,7 +64,14 @@ class RdapObject {
         return $content;
     }
 
-    public static function KeyToObjectName($name): ?string {
+    /**
+     *
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    private static function KeyToObjectName(string $name): string {
         switch ($name) {
             case 'rdapConformance':
                 return 'Metaregistrar\RDAP\Data\RdapConformance';
@@ -96,7 +104,10 @@ class RdapObject {
         }
     }
 
-    public function getObjectClassname(): string {
+    /**
+     * @return string
+     */
+    final public function getObjectClassname(): string {
         return $this->objectClassName;
     }
 }

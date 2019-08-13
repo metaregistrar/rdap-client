@@ -2,6 +2,8 @@
 
 namespace Metaregistrar\RDAP;
 
+use Metaregistrar\RDAP\Responses\RdapAsnResponse;
+use Metaregistrar\RDAP\Responses\RdapIpResponse;
 use Metaregistrar\RDAP\Responses\RdapResponse;
 
 final class Rdap {
