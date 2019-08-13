@@ -103,7 +103,7 @@ final class Rdap {
             throw new RdapException('Search parameter must be a string for ipv4, ipv6, domain or nameserver searches');
         }
 
-        if (($this->getProtocol() === self::ASN) && (!is_numeric($search))) {
+        if ((!is_numeric($search)) && ($this->getProtocol() === self::ASN)) {
             throw new RdapException('Search parameter must be a number or a string with numeric info for asn searches');
         }
 

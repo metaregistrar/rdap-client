@@ -40,15 +40,15 @@ final class RdapTest extends TestCase {
     public function testDomainSearch(): void {
         $rdap = new Rdap(Rdap::DOMAIN);
 
-        $result = $rdap->search('udag.com');
+        $response = $rdap->search('udag.com');
 
-        $this->assertNotNull($result);
+        $this->assertNotNull($response);
 
-        $nameserver = $result->getNameservers();
+        $nameserver = $response->getNameservers();
         $this->assertIsArray($nameserver);
 
         $this->assertInstanceOf(RdapNameserver::class, $nameserver[0]);
-        foreach ($result->getEntities() as $entity) {
+        foreach ($response->getEntities() as $entity) {
             $this->assertInstanceOf(RdapEntity::class, $entity);
         }
     }

@@ -2,6 +2,8 @@
 
 namespace Metaregistrar\RDAP\Data;
 
+use Metaregistrar\RDAP\RdapException;
+
 /**
  * This is the parent class for all RdapXXXXX objects. This class will interpret the json that was received and convert it into objects that give back the data required
  * Class RdapObject
@@ -19,6 +21,8 @@ class RdapObject {
      *
      * @param string $key
      * @param mixed  $content
+     *
+     * @throws \Metaregistrar\RDAP\RdapException
      */
     public function __construct(string $key, $content) {
         if ($content) {
@@ -43,10 +47,19 @@ class RdapObject {
         }
     }
 
-    private static function createObject(string $key, $value) {
+    /**
+     *
+     *
+     * @param $key
+     * @param $value
+     *
+     * @return mixed
+     * @throws \Metaregistrar\RDAP\RdapException
+     */
+    private static function createObject($key, $value) {
         if (is_numeric($key)) {
             if (is_array($value)) {
-                die("$key VALUE MAG GEEN ARRAY ZIJN\n");
+                throw new RdapException("'$key' can not be an array.");
             }
 
             return $value;
@@ -55,6 +68,14 @@ class RdapObject {
         return self::KeyToObject($key, $value);
     }
 
+    /**
+     *
+     *
+     * @param string $name
+     * @param $content
+     *
+     * @return mixed
+     */
     public static function KeyToObject(string $name, $content) {
         $name = self::KeyToObjectName($name);
         if (class_exists($name)) {
