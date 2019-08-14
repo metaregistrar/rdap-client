@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Responses;
 
-class RdapIpResponse extends RdapResponse {
-    public $startAddress = null;
-    public $endAddress   = null;
-    public $ipVersion    = null;
-    public $country      = null;
+final class RdapIpResponse extends RdapResponse {
+    protected $startAddress;
+    protected $endAddress;
+    protected $ipVersion;
+    protected $country;
 
     /**
      * @return string

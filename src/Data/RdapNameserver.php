@@ -1,12 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Data;
 
-class RdapNameserver extends RdapObject {
-    /**
-     * @var string
-     */
-    protected $objectClassName;
+final class RdapNameserver extends RdapObject {
     /**
      * @var string
      */
@@ -18,10 +14,10 @@ class RdapNameserver extends RdapObject {
     /**
      * @var RdapLink[]|null
      */
-    protected $links = null;
+    protected $links;
     /** @var RdapEvent[] */
-    protected $events      = null;
-    protected $ipAddresses = null;
+    protected $events     ;
+    protected $ipAddresses;
 
     /**
      * @return string
@@ -41,10 +37,10 @@ class RdapNameserver extends RdapObject {
     }
 
     public function dumpContents(): void {
-        echo "- Object Classname: " . $this->getObjectClassname() . "\n";
-        echo "- LDH Name: " . $this->ldhName . "\n";
+        echo '- Object Classname: ' . $this->getObjectClassname() . PHP_EOL;
+        echo '- LDH Name: ' . $this->ldhName . PHP_EOL;
         if (isset($this->status)) {
-            //echo "- Status: ".$this->status->getStatus()."\n";
+            //echo "- Status: ".$this->status->getStatus().PHP_EOL;
         }
         if (isset($this->links)) {
             foreach ($this->links as $link) {

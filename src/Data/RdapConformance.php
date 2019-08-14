@@ -1,25 +1,21 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Data;
 
-class RdapConformance extends RdapObject {
+final class RdapConformance extends RdapObject {
     protected $rdapConformance;
 
+    /**
+     * @return void
+     */
     public function dumpContents(): void {
-        echo '- ' . $this->getRdapConformance() . "\n";
+        echo '- ' . $this->getRdapConformance() . PHP_EOL;
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
-    public function getRdapConformance() {
+    public function getRdapConformance(): ?string {
         return $this->rdapConformance;
-    }
-
-    /**
-     * @param mixed $rdapConformance
-     */
-    public function setRdapConformance($rdapConformance): void {
-        $this->rdapConformance = $rdapConformance;
     }
 }

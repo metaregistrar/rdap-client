@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Data;
 
-class RdapPublicId extends RdapObject {
+final class RdapPublicId extends RdapObject {
     protected $ids;
 
-    public function __construct($key, $content) {
+    public function __construct(string $key, $content) {
         $this->objectClassName = 'PublicId';
         parent::__construct($key, null);
         if (is_array($content)) {

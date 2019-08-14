@@ -7,13 +7,13 @@ use Metaregistrar\RDAP\Responses\RdapIpResponse;
 use Metaregistrar\RDAP\Responses\RdapResponse;
 
 final class Rdap {
-    public const ASN = 'asn';
-    public const IPV4       = 'ipv4';
-    public const IPV6       = 'ipv6';
-    public const NS         = 'ns';
-    public const DOMAIN     = 'domain';
-    public const SEARCH     = 'search';
-    public const HOME       = 'home';
+    public const ASN    = 'asn';
+    public const IPV4   = 'ipv4';
+    public const IPV6   = 'ipv6';
+    public const NS     = 'ns';
+    public const DOMAIN = 'domain';
+    public const SEARCH = 'search';
+    public const HOME   = 'home';
 
     private static $protocols = [
         'ipv4'   => [self::HOME => 'https://data.iana.org/rdap/ipv4.json', self::SEARCH => 'ip/'],
@@ -131,7 +131,7 @@ final class Rdap {
                         if ($service[1][0]{strlen($service[1][0]) - 1} !== '/') {
                             $service[1][0] .= '/';
                         }
-                        //echo $service[1][0].$this->protocols[$this->protocol][self::SEARCH].$number;
+
                         $rdap = file_get_contents($service[1][0] . self::$protocols[$this->protocol][self::SEARCH] . $search);
 
                         return $this->createResponse($this->getProtocol(), $rdap);
@@ -165,9 +165,12 @@ final class Rdap {
         }
     }
 
-    private function readRoot() {
+    /**
+     * @return array
+     */
+    private function readRoot(): array {
         $rdap = file_get_contents(self::$protocols[$this->protocol][self::HOME]);
-        $json = json_decode($rdap);
+        $json = json_decode($rdap, false);
         $this->setDescription($json->description);
         $this->setPublicationdate($json->publication);
         $this->setVersion($json->version);
@@ -175,11 +178,20 @@ final class Rdap {
         return $json->services;
     }
 
-    private function createResponse($protocol, $json): RdapResponse {
+    /**
+     *
+     *
+     * @param string $protocol
+     * @param string $json
+     *
+     * @return \Metaregistrar\RDAP\Responses\RdapResponse
+     * @throws \Metaregistrar\RDAP\RdapException
+     */
+    private function createResponse(string $protocol, string $json): RdapResponse {
         switch ($protocol) {
-            case Rdap::IPV4:
+            case self::IPV4:
                 return new RdapIpResponse($json);
-            case Rdap::ASN:
+            case self::ASN:
                 return new RdapAsnResponse($json);
             default:
                 return new RdapResponse($json);

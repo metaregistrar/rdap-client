@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Data;
 
-class RdapLink extends RdapObject {
+final class RdapLink extends RdapObject {
     /**
      * @var string
      */
@@ -20,7 +20,7 @@ class RdapLink extends RdapObject {
      */
     protected $value;
 
-    public function __construct($key, $content) {
+    public function __construct(string $key, $content) {
         parent::__construct($key, null);
         if (is_array($content)) {
             if (isset($content[0])) {
@@ -38,7 +38,7 @@ class RdapLink extends RdapObject {
     }
 
     public function dumpContents(): void {
-        echo "  - Link: " . $this->rel . ': ', $this->href . " (" . $this->title . ")\n";
+        echo '  - Link: ' . $this->rel . ': ', $this->href . ' (' . $this->title . ")\n";
     }
 
     /**

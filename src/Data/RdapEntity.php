@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Data;
 
-class RdapEntity extends RdapObject {
+final class RdapEntity extends RdapObject {
     /**
      * @var string|null
      */
-    protected $type = null;
+    protected $type;
     /**
      * @var string
      */
@@ -18,29 +18,29 @@ class RdapEntity extends RdapObject {
     /**
      * @var null|RdapStatus[]
      */
-    protected $status = null;
+    protected $status;
     /**
      * @var null|string
      */
-    protected $port43 = null;
+    protected $port43;
     /**
      * @var RdapVcard[]|null
      */
-    protected $vcards          = null;
-    protected $vcardArray      = null;
-    protected $objectClassName = null;
+    protected $vcards         ;
+    protected $vcardArray     ;
+    protected $objectClassName;
     protected $remarks         = array();
     /**
      * @var RdapRole[]|null
      */
-    protected $roles = null;
+    protected $roles;
     /**
      * @var null|RdapPublicId[]
      */
-    protected $publicIds = null;
-    protected $entities  = null;
+    protected $publicIds;
+    protected $entities ;
 
-    public function __construct($key, $content) {
+    public function __construct(string $key, $content) {
         parent::__construct($key, $content);
         if ($this->vcardArray && count($this->vcardArray) > 0) {
             foreach ($this->vcardArray as $id => $vcard) {
@@ -60,13 +60,12 @@ class RdapEntity extends RdapObject {
         }
     }
 
+    /**
+     * @return string
+     */
     public function getLanguage(): string {
         return $this->lang;
     }
-
-    /*
-     * return string|null
-     */
 
     /**
      * @return string
@@ -89,23 +88,21 @@ class RdapEntity extends RdapObject {
      *
      */
     public function dumpContents(): void {
-        echo "- Handle: " . $this->getHandle() . "\n";
+        echo '- Handle: ' . $this->getHandle() . PHP_EOL;
         if (isset($this->roles)) {
             foreach ($this->roles as $role) {
-                echo "- Role: " . $role->getRole() . "\n";
+                echo '- Role: ' . $role->getRole() . PHP_EOL;
             }
         }
         if (isset($this->port43)) {
-            echo "- Port 43 whois: " . $this->getPort43() . "\n";
+            echo '- Port 43 whois: ' . $this->getPort43() . PHP_EOL;
         }
-        if (isset($this->publicIds)) {
-            if (is_array($this->publicIds)) {
-                foreach ($this->publicIds as $publicid) {
-                    $publicid->dumpContents();
-                }
+        if (isset($this->publicIds) && is_array($this->publicIds)) {
+            foreach ($this->publicIds as $publicid) {
+                $publicid->dumpContents();
             }
         }
-        if ((is_array($this->vcards)) && (count($this->vcards) > 0)) {
+        if (is_array($this->vcards) && (count($this->vcards) > 0)) {
             foreach ($this->vcards as $vcard) {
                 $vcard->dumpContents();
             }

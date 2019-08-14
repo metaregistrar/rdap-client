@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Responses;
 
@@ -19,63 +19,63 @@ class RdapResponse {
     /**
      * @var string|null
      */
-    protected $objectClassName = null;
+    private $objectClassName;
     /**
      * @var string|null
      */
-    protected $ldhName = null;
+    private $ldhName ;
     /**
      * @var string
      */
-    protected $handle = '';
+    private $handle = '';
     /*
     * @var  string
     */
-    protected $name = '';
+    private $name = '';
     /**
      * @var string
      */
-    protected $type = '';
+    private $type = '';
     /**
      * @var null|RdapConformance[]
      */
-    protected $rdapConformance = null;
+    private $rdapConformance;
     /**
      * @var null|RdapEntity[]
      */
-    protected $entities = null;
+    private $entities;
     /**
      * @var null|RdapLink[]
      */
-    protected $links = null;
+    private $links;
     /**
      * @var null|RdapRemark[]
      */
-    protected $remarks = null;
+    private $remarks;
     /**
      * @var null|RdapNotice[]
      */
-    protected $notices = null;
+    private $notices;
     /**
      * @var null|RdapEvent[]
      */
-    protected $events = null;
+    private $events;
     /**
      * @var null|RdapPort43[]
      */
-    protected $port43;
+    private $port43;
     /**
      * @var null|RdapNameserver[]
      */
-    protected $nameservers = null;
+    private $nameservers;
     /**
      * @var null|RdapStatus[]
      */
-    protected $status = null;
+    private $status;
     /**
      * @var null|RdapSecureDNS[]
      */
-    protected $secureDNS = null;
+    private $secureDNS;
 
     /**
      * RdapResponse constructor.
@@ -105,105 +105,105 @@ class RdapResponse {
     /**
      * @return string
      */
-    public function getHandle(): string {
+    final public function getHandle(): string {
         return $this->handle;
     }
 
     /**
      * @return RdapConformance[]|null
      */
-    public function getConformance(): ?array {
+    final public function getConformance(): ?array {
         return $this->rdapConformance;
     }
 
     /**
      * @return string
      */
-    public function getName(): string {
+    final public function getName(): string {
         return $this->name;
     }
 
     /**
      * @return string
      */
-    public function getType(): string {
+    final public function getType(): string {
         return $this->type;
     }
 
     /**
      * @return RdapEntity[]|null
      */
-    public function getEntities(): ?array {
+    final public function getEntities(): ?array {
         return $this->entities;
     }
 
     /**
      * @return RdapLink[]|null
      */
-    public function getLinks(): ?array {
+    final public function getLinks(): ?array {
         return $this->links;
     }
 
     /**
      * @return RdapRemark[]|null
      */
-    public function getRemarks(): ?array {
+    final public function getRemarks(): ?array {
         return $this->remarks;
     }
 
     /**
      * @return RdapNotice[]|null
      */
-    public function getNotices(): ?array {
+    final public function getNotices(): ?array {
         return $this->notices;
     }
 
     /**
-     * @return string
+     * @return RdapPort43[]|null
      */
-    public function getPort43(): string {
+    final public function getPort43(): ?array {
         return $this->port43;
     }
 
     /**
      * @return RdapNameserver[]|null
      */
-    public function getNameservers(): ?array {
+    final public function getNameservers(): ?array {
         return $this->nameservers;
     }
 
     /**
      * @return RdapStatus[]|null
      */
-    public function getStatus(): ?array {
+    final public function getStatus(): ?array {
         return $this->status;
     }
 
     /**
      * @return RdapEvent[]|null
      */
-    public function getEvents(): ?array {
+    final public function getEvents(): ?array {
         return $this->events;
     }
 
     /**
      * @return string|null
      */
-    public function getClassname(): ?string {
+    final public function getClassname(): ?string {
         return $this->objectClassName;
     }
 
     /**
      * @return string|null
      */
-    public function getLDHName(): ?string {
+    final public function getLDHName(): ?string {
         return $this->ldhName;
     }
 
     /**
      * @return RdapSecureDNS[]|null
      */
-    public function getSecureDNS(): ?array {
+    final public function getSecureDNS(): ?array {
         return $this->secureDNS;
     }
 }

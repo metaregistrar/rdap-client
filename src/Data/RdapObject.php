@@ -1,24 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Data;
 
 use Metaregistrar\RDAP\RdapException;
-use Metaregistrar\RDAP\Data\RdapConformance;
-use Metaregistrar\RDAP\Data\RdapEntity;
-use Metaregistrar\RDAP\Data\RdapRemark;
-use Metaregistrar\RDAP\Data\RdapLink;
-use Metaregistrar\RDAP\Data\RdapNotice;
-use Metaregistrar\RDAP\Data\RdapEvent;
-use Metaregistrar\RDAP\Data\RdapRole;
-use Metaregistrar\RDAP\Data\RdapDescription;
-use Metaregistrar\RDAP\Data\RdapPort43;
-use Metaregistrar\RDAP\Data\RdapNameserver;
-use Metaregistrar\RDAP\Data\RdapSecureDNS;
-use Metaregistrar\RDAP\Data\RdapStatus;
-use Metaregistrar\RDAP\Data\RdapPublicId;
 
 /**
- * This is the parent class for all RdapXXXXX objects. This class will interpret the json that was received and convert it into objects that give back the data required
+ * This is the parent  class for all RdapXXXXX objects. This  class will interpret the json that was received and convert it into objects that give back the data required
  * Class RdapObject
  *
  * @package Metaregistrar\RDAP
@@ -141,7 +128,7 @@ class RdapObject {
     /**
      * @return string
      */
-    final public function getObjectClassname(): string {
+     final public function getObjectClassname(): string {
         return $this->objectClassName;
     }
 }

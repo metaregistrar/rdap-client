@@ -1,10 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Data;
 
-class RdapRole extends RdapObject {
+final class RdapRole extends RdapObject {
     public function dumpContents(): void {
-        echo "- Role: " . $this->getRole() . "\n";
+        echo '- Role: ' . $this->getRole() . PHP_EOL;
     }
 
     public function getRole() {

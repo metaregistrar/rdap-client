@@ -1,8 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Data;
 
-class RdapSecureDNS extends RdapObject {
+final class RdapSecureDNS extends RdapObject {
     /**
      * @var bool
      */
@@ -10,31 +10,31 @@ class RdapSecureDNS extends RdapObject {
     /**
      * @var null|string
      */
-    protected $delegationSigned = null;
+    protected $delegationSigned;
     /**
      * @var null|int
      */
-    protected $maxSigLife = null;
+    protected $maxSigLife;
     /**
      * @var null|array
      */
-    protected $dsData = null;
+    protected $dsData;
     /**
      * @var null|string
      */
-    protected $keyTag = null;
+    protected $keyTag;
     /**
      * @var null|string
      */
-    protected $digestType = null;
+    protected $digestType;
     /**
      * @var null|string
      */
-    protected $digest = null;
+    protected $digest;
     /**
      * @var null|string
      */
-    protected $algorithm = null;
+    protected $algorithm;
 
     /**
      * @return boolean
@@ -71,12 +71,12 @@ class RdapSecureDNS extends RdapObject {
      *
      */
     public function dumpDigest(): void {
-        echo "- Delegation signed: " . $this->getDelegationSigned() . "\n";
-        echo "- Max sig life: " . $this->getMaxSigLife() . "\n";
-        echo "- Keytag: " . $this->getKeyTag() . "\n";
-        echo "- Algorithm: " . $this->getAlgorithm() . "\n";
-        echo "- Digest Type :" . $this->getDigestType() . "\n";
-        echo "- Digest: " . $this->getDigest() . "\n";
+        echo '- Delegation signed: ' . $this->getDelegationSigned() . PHP_EOL;
+        echo '- Max sig life: ' . $this->getMaxSigLife() . PHP_EOL;
+        echo '- Keytag: ' . $this->getKeyTag() . PHP_EOL;
+        echo '- Algorithm: ' . $this->getAlgorithm() . PHP_EOL;
+        echo '- Digest Type :' . $this->getDigestType() . PHP_EOL;
+        echo '- Digest: ' . $this->getDigest() . PHP_EOL;
     }
 
     /**
@@ -125,8 +125,8 @@ class RdapSecureDNS extends RdapObject {
      *
      */
     public function dumpDnskey(): void {
-        echo "- Delegation signed: " . $this->getDelegationSigned() . "\n";
-        echo "- Max sig life: " . $this->getMaxSigLife() . "\n";
-        echo "- DNS Key: " . $this->getDsData() . "\n";
+        echo '- Delegation signed: ' . $this->getDelegationSigned() . PHP_EOL;
+        echo '- Max sig life: ' . $this->getMaxSigLife() . PHP_EOL;
+        echo '- DNS Key: ' . implode(', ', $this->getDsData()) . PHP_EOL;
     }
 }

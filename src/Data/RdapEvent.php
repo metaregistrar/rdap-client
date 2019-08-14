@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Data;
 
-class RdapEvent extends RdapObject {
-    protected $events = null;
+final class RdapEvent extends RdapObject {
+    protected $events;
 
-    public function __construct($key, $content) {
+    public function __construct(string $key, $content) {
         parent::__construct($key, null);
         if (isset($content[0])) {
             foreach ($content as $c) {

@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Data;
 
-class RdapPort43 extends RdapObject {
+final class RdapPort43 extends RdapObject {
 }

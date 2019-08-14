@@ -1,12 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Metaregistrar\RDAP\Data;
 
-class RdapRemark extends RdapObject {
+final class RdapRemark extends RdapObject {
     protected $description = [];
 
     public function dumpContents(): void {
-        echo "- " . $this->getDescription() . "\n";
+        echo '- ' . implode(', ', $this->getDescription()) . PHP_EOL;
     }
 
     public function getDescription(): array {
