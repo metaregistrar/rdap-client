@@ -1,6 +1,6 @@
 <?php
 
-namespace Metaregistry\Rdap;
+namespace Metaregistrar\RDAP;
 
 use Metaregistrar\RDAP\Data\RdapEntity;
 use Metaregistrar\RDAP\Data\RdapNameserver;
