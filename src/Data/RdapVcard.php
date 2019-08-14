@@ -12,6 +12,9 @@ final class RdapVcard {
      * @var null|string
      */
     protected $fieldtype;
+    /**
+     * @var array
+     */
     protected $content;
     /**
      * @var null|int
@@ -42,22 +45,37 @@ final class RdapVcard {
         $this->content   = $contents;
     }
 
+    /**
+     * @return null|string
+     */
     public function getName(): ?string {
         return $this->name;
     }
 
+    /**
+     * @return null|string
+     */
     public function getFieldtype(): ?string {
         return $this->fieldtype;
     }
 
+    /**
+     * @return array|null
+     */
     public function getContentTypes(): ?array {
         return $this->contenttypes;
     }
 
+    /**
+     * @return void
+     */
     public function dumpContents(): void {
         echo '  - ' . $this->getContent() . PHP_EOL;
     }
 
+    /**
+     * @return null|string
+     */
     public function getContent(): ?string {
         if ($this->name === 'version') {
             return 'Version: ' . $this->content;
@@ -95,6 +113,9 @@ final class RdapVcard {
         return null;
     }
 
+    /**
+     * @return string
+     */
     public function dumpContentTypes(): string {
         $return = '';
         if (is_array($this->contenttypes)) {

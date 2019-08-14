@@ -9,10 +9,16 @@ final class RdapStatus extends RdapObject {
      */
     protected $rdapStatus;
 
+    /**
+     * @return void
+     */
     public function dumpContents(): void {
         echo '- Status: ' . $this->getStatus() . PHP_EOL;
     }
 
+    /**
+     * @return null|string
+     */
     public function getStatus(): ?string{
         return $this->rdapStatus ?? $this->{0} ?? null;
     }
