@@ -9,11 +9,13 @@ final class RdapRemark extends RdapObject {
      * @return void
      */
     public function dumpContents(): void {
-        echo '- ' . implode(', ', $this->getDescription()) . PHP_EOL;
+        foreach ($this->getDescription() as $description) {
+            $description->dumpContents();
+        }
     }
 
     /**
-     * @return array
+     * @return RdapDescription[]
      */
     public function getDescription(): array {
         return $this->description;
