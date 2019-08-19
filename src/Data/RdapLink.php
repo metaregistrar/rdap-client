@@ -23,17 +23,10 @@ final class RdapLink extends RdapObject {
     public function __construct(string $key, $content) {
         parent::__construct($key, null);
         if (is_array($content)) {
-            if (isset($content[0])) {
-                $this->rel   = $content[0]['rel'];
-                $this->href  = $content[0]['href'];
-                $this->type  = $content[0]['type'];
-                $this->value = $content[0]['value'];
-            } else {
-                $this->rel   = $content['rel'];
-                $this->href  = $content['href'];
-                $this->type  = $content['type'];
-                $this->value = $content['value'];
-            }
+                $this->rel   = $content['rel']??$content[0]['rel']??'';
+                $this->href  = $content['href']??$content[0]['href']??'';
+                $this->type  = $content['type']??$content[0]['type']??'';
+                $this->value = $content['value']??$content[0]['value']??'';
         }
     }
 

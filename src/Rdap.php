@@ -120,7 +120,7 @@ final class Rdap {
                         if ($service[1][0]{strlen($service[1][0]) - 1} !== '/') {
                             $service[1][0] .= '/';
                         }
-                        $rdap = file_get_contents($service[1][0] . self::$protocols[$this->protocol][self::SEARCH] . $search);
+                        $rdap = $this->getResponse($service[1][0] . self::$protocols[$this->protocol][self::SEARCH] . $search);
 
                         return $this->createResponse($this->getProtocol(), $rdap);
                     }
@@ -132,7 +132,7 @@ final class Rdap {
                             $service[1][0] .= '/';
                         }
 
-                        $rdap = file_get_contents($service[1][0] . self::$protocols[$this->protocol][self::SEARCH] . $search);
+                        $rdap = $this->getResponse($service[1][0] . self::$protocols[$this->protocol][self::SEARCH] . $search);
 
                         return $this->createResponse($this->getProtocol(), $rdap);
                     }
@@ -167,9 +167,10 @@ final class Rdap {
 
     /**
      * @return array
+     * @throws \Metaregistrar\RDAP\RdapException
      */
     private function readRoot(): array {
-        $rdap = file_get_contents(self::$protocols[$this->protocol][self::HOME]);
+        $rdap = $this->getResponse(self::$protocols[$this->protocol][self::HOME]);
         $json = json_decode($rdap, false);
         $this->setDescription($json->description);
         $this->setPublicationdate($json->publication);
@@ -199,5 +200,31 @@ final class Rdap {
     }
 
     public function case(): void {
+    }
+
+    /**
+     *
+     *
+     * @param string $url
+     *
+     * @return string
+     * @throws \Metaregistrar\RDAP\RdapException
+     */
+    private function getResponse(string $url): string {
+        $options = array(
+            'http' => array(
+                'protocol_version' => '1.1',
+                'method' => 'GET'
+            )
+        );
+        $context = stream_context_create($options);
+
+        $contents = file_get_contents($url, false, $context);
+
+        if ($context === false) {
+            throw new RdapException("Problem getting response from '$url'.");
+        }
+
+        return $contents;
     }
 }

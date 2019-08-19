@@ -37,6 +37,12 @@ final class RdapTest extends TestCase {
         new Rdap('');
     }
 
+    /**
+     *
+     *
+     * @return void
+     * @throws \Metaregistrar\RDAP\RdapException
+     */
     public function testDomainSearch(): void {
         $rdap = new Rdap(Rdap::DOMAIN);
 
@@ -53,6 +59,12 @@ final class RdapTest extends TestCase {
         }
     }
 
+    /**
+     *
+     *
+     * @return void
+     * @throws \Metaregistrar\RDAP\RdapException
+     */
     public function testIpv4Search(): void {
         $rdap = new Rdap(Rdap::IPV4);
 
