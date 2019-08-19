@@ -44,7 +44,7 @@ final class RdapSecureDNS extends RdapObject {
     }
 
     /**
-     *
+     * @return void
      */
     public function dumpContents(): void {
         if ($this->delegationSigned) {
@@ -68,7 +68,7 @@ final class RdapSecureDNS extends RdapObject {
     }
 
     /**
-     *
+     * @return void
      */
     public function dumpDigest(): void {
         echo '- Delegation signed: ' . $this->getDelegationSigned() . PHP_EOL;
@@ -122,7 +122,7 @@ final class RdapSecureDNS extends RdapObject {
     }
 
     /**
-     *
+     * @return void
      */
     public function dumpDnskey(): void {
         echo '- Delegation signed: ' . $this->getDelegationSigned() . PHP_EOL;

@@ -85,7 +85,7 @@ final class RdapEntity extends RdapObject {
     }
 
     /**
-     *
+     * @return void
      */
     public function dumpContents(): void {
         echo '- Handle: ' . $this->getHandle() . PHP_EOL;

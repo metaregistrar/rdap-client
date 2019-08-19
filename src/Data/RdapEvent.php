@@ -23,6 +23,9 @@ final class RdapEvent extends RdapObject {
         return $this->events;
     }
 
+    /**
+     * @return void
+     */
     public function dumpContents(): void {
         if (is_array($this->events)) {
             foreach ($this->events as $action => $date) {

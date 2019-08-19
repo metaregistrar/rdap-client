@@ -8,6 +8,11 @@ final class RdapDescription extends RdapObject {
      */
     protected $description;
 
+    /**
+     * RdapDescription constructor.
+     * @param string $key
+     * @param mixed $content
+     */
     public function __construct(string $key, $content) {
         parent::__construct($key, null);
         if (is_array($content)) {
@@ -17,10 +22,16 @@ final class RdapDescription extends RdapObject {
         }
     }
 
+    /**
+     * @return void
+     */
     public function dumpContents(): void {
         echo '  - Description: ' . $this->getDescription() . PHP_EOL;
     }
 
+    /**
+     * @return string
+     */
     public function getDescription(): string {
         return $this->description??'';
     }

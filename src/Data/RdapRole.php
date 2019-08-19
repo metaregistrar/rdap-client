@@ -3,10 +3,16 @@
 namespace Metaregistrar\RDAP\Data;
 
 final class RdapRole extends RdapObject {
+    /**
+     * @return void
+     */
     public function dumpContents(): void {
         echo '- Role: ' . $this->getRole() . PHP_EOL;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRole() {
         return $this->{0};
     }

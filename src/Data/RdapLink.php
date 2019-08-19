@@ -19,6 +19,10 @@ final class RdapLink extends RdapObject {
      * @var string
      */
     protected $value;
+    /**
+     * @var mixed
+     */
+    protected $type;
 
     public function __construct(string $key, $content) {
         parent::__construct($key, null);
@@ -30,6 +34,9 @@ final class RdapLink extends RdapObject {
         }
     }
 
+    /**
+     * @return void
+     */
     public function dumpContents(): void {
         echo '  - Link: ' . $this->rel . ': ', $this->href . ' (' . $this->title . ")\n";
     }

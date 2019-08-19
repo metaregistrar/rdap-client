@@ -52,6 +52,7 @@ final class Rdap {
 
     /**
      * @param string $publicationdate
+     * @return void
      */
     public function setPublicationdate(string $publicationdate): void {
         $this->publicationdate = $publicationdate;
@@ -66,6 +67,7 @@ final class Rdap {
 
     /**
      * @param string $version
+     * @return void
      */
     public function setVersion(string $version): void {
         $this->version = $version;
@@ -80,6 +82,7 @@ final class Rdap {
 
     /**
      * @param string $description
+     * @return void
      */
     public function setDescription(string $description): void {
         $this->description = $description;
@@ -114,7 +117,7 @@ final class Rdap {
             foreach ($service[0] as $number) {
                 // ip address range match
                 if (strpos($number, '-') > 0) {
-                    [$start, $end] = explode('-', $number);
+                    list($start, $end) = explode('-', $number);
                     if (($parameter >= $start) && ($parameter <= $end)) {
                         // check for slash as last character in the server name, if not, add it
                         if ($service[1][0]{strlen($service[1][0]) - 1} !== '/') {
@@ -153,7 +156,7 @@ final class Rdap {
     private function prepareSearch(string $string): string {
         switch ($this->getProtocol()) {
             case self::IPV4:
-                [$start] = explode('.', $string);
+                list($start) = explode('.', $string);
 
                 return $start . '.0.0.0/8';
             case self::DOMAIN:
@@ -199,6 +202,9 @@ final class Rdap {
         }
     }
 
+    /**
+     * @return void
+     */
     public function case(): void {
     }
 
