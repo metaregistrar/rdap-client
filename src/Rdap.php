@@ -222,7 +222,7 @@ final class Rdap {
         if ($this->cache && !empty($key)) {
             if ($this->cache->has($key) === false) {
                 $contents = $this->getFileContents($url);
-                $this->cache->set($key, $rdap, $ttl);
+                $this->cache->set($key, $contents, $ttl);
             } else {
                 $contents = $this->cache->get($key);
             }
