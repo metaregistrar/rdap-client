@@ -227,7 +227,7 @@ final class Rdap {
 
         $contents = file_get_contents($url, false, $context);
 
-        if ($context === false) {
+        if ($contents === false) {
             throw new RdapException("Problem getting response from '$url'.");
         }
 
