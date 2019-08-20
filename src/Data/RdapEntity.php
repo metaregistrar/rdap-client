@@ -122,4 +122,11 @@ final class RdapEntity extends RdapObject {
     public function getPort43(): ?string {
         return $this->port43;
     }
+
+    /**
+     * @return \Metaregistrar\RDAP\Data\RdapVcard[]|null
+     */
+    public function getVcards(): ?array {
+        return $this->vcards;
+    }
 }
