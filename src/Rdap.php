@@ -218,7 +218,7 @@ final class Rdap {
      * @throws \Metaregistrar\RDAP\RdapException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    private function getResponse(string $url, string $key = '', int $ttl=86400): string {
+    private function getResponse(string $url, string $key = '', int $ttl = 86400): string {
         if ($this->cache && !empty($key)) {
             if ($this->cache->has($key) === false) {
                 $contents = $this->getFileContents($url);
@@ -244,6 +244,7 @@ final class Rdap {
     private function getFileContents(string $url): string {
         $options = array(
             'http' => array(
+                'ignore_errors'    => true,
                 'protocol_version' => '1.1',
                 'method'           => 'GET'
             )
@@ -275,7 +276,7 @@ final class Rdap {
         $rdap = $this->getResponse($service[1][0] . self::$protocols[$this->protocol][self::SEARCH] . $search, $search);
 
         return $this->createResponse($this->getProtocol(), $rdap);
-}
+    }
 
     /**
      * @param CacheInterface $cache

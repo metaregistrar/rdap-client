@@ -1,24 +1,28 @@
 <?php
+
+use Metaregistrar\RDAP\RdapException;
+
 include './vendor/autoload.php';
 
 //$search = 59980;
 //$protocol = Metaregistrar\RDAP\rdap::ASN;
 //$search = 'RIPE-NCC-END-MNT';
 //$search = '81.4.97.200';
-//$search = '196.216.2.6';
+//$search = '82.135.96.210';
 //$search = '8.8.4.4';
-$search = 'gamma.com';
+$search = 'muski.rocks';
 //$protocol = Metaregistrar\RDAP\Rdap::IPV4;
 $protocol = Metaregistrar\RDAP\Rdap::DOMAIN;
 
 try {
-    $rdap = new Metaregistrar\RDAP\Rdap($protocol);
-    $test = $rdap->search($search);
+    $rdap  = new Metaregistrar\RDAP\Rdap($protocol);
+    $test  = $rdap->search($search);
 
-    if ($test) {
-        echo 'class name: ' .$test->getClassname().PHP_EOL;
-        echo 'handle: ' .$test->getHandle().PHP_EOL;
-        echo 'LDH (letters, digits, hyphens) name: ' .$test->getLDHName().PHP_EOL;
+    if ($test && $test->getErrorCode() === null) {
+        //var_dump ($test);
+        echo 'class name: ' . $test->getClassname() . PHP_EOL;
+        echo 'handle: ' . $test->getHandle() . PHP_EOL;
+        echo 'LDH (letters, digits, hyphens) name: ' . $test->getLDHName() . PHP_EOL;
         //echo "name: ".$test->getName().PHP_EOL;
         //echo "country: ".$test->getCountry().PHP_EOL;
         //echo "type: ".$test->getType().PHP_EOL;
@@ -28,6 +32,7 @@ try {
             foreach ($test->getNameservers() as $nameserver) {
                 $nameserver->dumpContents();
             }
+            echo PHP_EOL;
         }
         if (is_array($test->getSecureDNS())) {
             echo "DNSSEC:\n";
@@ -43,7 +48,7 @@ try {
         echo PHP_EOL;
         if (is_array($test->getEntities())) {
             echo "Entities found:\n";
-            foreach($test->getEntities() as $entity) {
+            foreach ($test->getEntities() as $entity) {
                 $entity->dumpContents();
                 echo PHP_EOL;
             }
@@ -77,19 +82,20 @@ try {
             echo PHP_EOL;
         }
 
-
         if (is_array($test->getEvents())) {
             echo "Events:\n";
             foreach ($test->getEvents() as $event) {
                 $event->dumpContents();
             }
+            echo PHP_EOL;
         }
     } else {
-        echo "$search was not found on any RDAP service\n";
+        $title = '';
+        if ($test) {
+            $title = $test->getTitle();
+        }
+        echo "$search was not found on any RDAP service. $title\n";
     }
-
-
-
-} catch (Metaregistrar\RDAP\rdapException $e) {
-    echo 'ERROR: ' .$e->getMessage().PHP_EOL;
+} catch (RdapException $e) {
+    echo 'ERROR: ' . $e->getMessage() . PHP_EOL;
 }
