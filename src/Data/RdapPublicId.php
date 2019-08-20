@@ -9,9 +9,14 @@ final class RdapPublicId extends RdapObject {
         $this->objectClassName = 'PublicId';
         parent::__construct($key, null);
         if (is_array($content)) {
-            foreach ($content as $id) {
-                $this->ids[$id['type']] = $id['identifier'];
+            if (array_key_exists('type', $content)) {
+                $this->ids[$content['type']] = $content['identifier'];
+            } else {
+                foreach ($content as $id) {
+                    $this->ids[$id['type']] = $id['identifier'];
+                }
             }
+
         }
     }
 
