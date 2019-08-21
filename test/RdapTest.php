@@ -5,8 +5,6 @@ namespace Metaregistrar\RDAP;
 use Metaregistrar\RDAP\Data\RdapEntity;
 use Metaregistrar\RDAP\Data\RdapNameserver;
 use Metaregistrar\RDAP\Data\RdapNotice;
-use Metaregistrar\RDAP\Rdap;
-use Metaregistrar\RDAP\RdapException;
 use PHPUnit\Framework\TestCase;
 
 final class RdapTest extends TestCase {
@@ -60,8 +58,21 @@ final class RdapTest extends TestCase {
     }
 
     /**
-     *
-     *
+     * @return void
+     * @throws \Metaregistrar\RDAP\RdapException
+     */
+    public function testNonExistantSearch(): void {
+        $rdap = new Rdap(Rdap::DOMAIN);
+
+        $response = $rdap->search('mrfglsadfgasdf.rocks');
+
+        $this->assertNotNull($response);
+
+        $this->assertEquals(404, $response->getErrorCode());
+        $this->assertEquals('Object not found', $response->getTitle());
+    }
+
+    /**
      * @return void
      * @throws \Metaregistrar\RDAP\RdapException
      */

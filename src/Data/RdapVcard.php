@@ -13,7 +13,7 @@ final class RdapVcard {
      */
     protected $fieldtype;
     /**
-     * @var array
+     * @var string|array
      */
     protected $content;
     /**
@@ -25,7 +25,15 @@ final class RdapVcard {
      */
     protected $contenttypes;
 
-    public function __construct($name, $extras, $type, $contents) {
+    /**
+     * RdapVcard constructor.
+     *
+     * @param string $name
+     * @param        $extras
+     * @param string $type
+     * @param        $contents
+     */
+    public function __construct(string $name, $extras, string $type, $contents) {
         $this->name = $name;
         if (is_array($extras)) {
             if (isset($extras['type'])) {
@@ -70,13 +78,13 @@ final class RdapVcard {
      * @return void
      */
     public function dumpContents(): void {
-        echo '  - ' . $this->getContent() . PHP_EOL;
+        echo '  - ' . $this->getDumpContent() . PHP_EOL;
     }
 
     /**
      * @return null|string
      */
-    public function getContent(): ?string {
+    private function getDumpContent(): ?string {
         if ($this->name === 'version') {
             return 'Version: ' . $this->content;
         }
@@ -128,5 +136,16 @@ final class RdapVcard {
         }
 
         return $return;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent(): string {
+        if (is_array($this->content)) {
+            return implode(', ', $this->content);
+        }
+
+        return $this->content;
     }
 }

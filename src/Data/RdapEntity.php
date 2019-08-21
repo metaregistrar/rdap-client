@@ -71,17 +71,11 @@ final class RdapEntity extends RdapObject {
      * @return string
      */
     public function getRoles(): string {
-        $return = '';
         if (is_array($this->roles)) {
-            foreach ($this->roles as $role) {
-                if ($return !== '') {
-                    $return .= ', ';
-                }
-                $return .= $role->getRole();
-            }
+            return implode(', ', $this->roles);
         }
 
-        return $return;
+        return '';
     }
 
     /**
@@ -121,5 +115,12 @@ final class RdapEntity extends RdapObject {
      */
     public function getPort43(): ?string {
         return $this->port43;
+    }
+
+    /**
+     * @return \Metaregistrar\RDAP\Data\RdapVcard[]|null
+     */
+    public function getVcards(): ?array {
+        return $this->vcards;
     }
 }

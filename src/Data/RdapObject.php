@@ -41,7 +41,7 @@ class RdapObject {
                     }
                 }
             } else {
-                $var          = str_replace('Metaregistrar\RDAP\\', '', $key);
+                $var          = lcfirst(str_replace('Metaregistrar\RDAP\Data\\', '', $key));
                 $this->{$var} = $content;
             }
         }
@@ -72,7 +72,7 @@ class RdapObject {
      *
      *
      * @param string $name
-     * @param $content
+     * @param mixed  $content
      *
      * @return mixed
      */

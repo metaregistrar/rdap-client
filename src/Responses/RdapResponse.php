@@ -76,6 +76,15 @@ class RdapResponse {
      * @var null|RdapSecureDNS[]
      */
     private $secureDNS;
+    /**
+     * @var int
+     */
+    private $errorCode;
+
+    /**
+     * @var string
+     */
+    private $title;
 
     /**
      * RdapResponse constructor.
@@ -205,5 +214,19 @@ class RdapResponse {
      */
     final public function getSecureDNS(): ?array {
         return $this->secureDNS;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getErrorCode(): ?int {
+        return $this->errorCode;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string {
+        return $this->title;
     }
 }
