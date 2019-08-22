@@ -101,6 +101,10 @@ final class RdapSecureDNS extends RdapObject {
      * @return null|string
      */
     public function getAlgorithm(): ?string {
+        if (is_array($this->algorithm)) {
+            return (string)array_shift($this->algorithm);
+        }
+
         return $this->algorithm;
     }
 
@@ -108,6 +112,10 @@ final class RdapSecureDNS extends RdapObject {
      * @return null|string
      */
     public function getDigestType(): ?string {
+        if (is_array($this->digestType)) {
+            return (string)array_shift($this->digestType);
+        }
+
         return $this->digestType;
     }
 
@@ -115,6 +123,10 @@ final class RdapSecureDNS extends RdapObject {
      * @return null|string
      */
     public function getDigest(): ?string {
+        if (is_array($this->digest)) {
+            return (string)array_shift($this->digest);
+        }
+
         return $this->digest;
     }
 
