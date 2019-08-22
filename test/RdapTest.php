@@ -76,6 +76,41 @@ final class RdapTest extends TestCase {
      * @return void
      * @throws \Metaregistrar\RDAP\RdapException
      */
+    public function testSiteSearch(): void {
+        $rdap = new Rdap(Rdap::DOMAIN);
+
+        $response = $rdap->search('adac.site');
+
+        $this->assertNotNull($response);
+
+        $secureDNS = $response->getSecureDNS();
+        $this->assertIsArray($secureDNS);
+
+        $tags = [];
+        foreach ($secureDNS as $dns) {
+            $tags[] = $dns->getKeyTag();
+        }
+    }
+    /**
+     * @return void
+     * @throws \Metaregistrar\RDAP\RdapException
+     */
+    public function testInvalidDomainSearch(): void {
+        $rdap = new Rdap(Rdap::DOMAIN);
+
+        $invalidDomainName = 'notADomainName';
+
+        $this->expectException(RdapException::class);
+        $this->expectExceptionMessage("Invalid domain name '$invalidDomainName'.");
+
+        $rdap->search($invalidDomainName);
+    }
+
+
+    /**
+     * @return void
+     * @throws \Metaregistrar\RDAP\RdapException
+     */
     public function testIpv4Search(): void {
         $rdap = new Rdap(Rdap::IPV4);
 

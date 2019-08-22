@@ -149,6 +149,7 @@ final class Rdap {
      * @param string $search
      *
      * @return string
+     * @throws \Metaregistrar\RDAP\RdapException
      */
     private function prepareSearch(string $search): string {
         switch ($this->getProtocol()) {
@@ -158,6 +159,9 @@ final class Rdap {
                 return $start . '.0.0.0/8';
             case self::DOMAIN:
                 $extension = explode('.', $search, 2);
+                if (count($extension) < 2) {
+                    throw new RdapException("Invalid domain name '$search'.");
+                }
 
                 return $extension[1];
             default:
