@@ -76,6 +76,26 @@ final class RdapTest extends TestCase {
      * @return void
      * @throws \Metaregistrar\RDAP\RdapException
      */
+    public function testSiteSearch(): void {
+        $rdap = new Rdap(Rdap::DOMAIN);
+
+        $response = $rdap->search('adac.site');
+
+        $this->assertNotNull($response);
+
+        $secureDNS = $response->getSecureDNS();
+        $this->assertIsArray($secureDNS);
+
+        $tags = [];
+        foreach ($secureDNS as $dns) {
+            $tags[] = $dns->getKeyTag();
+        }
+    }
+
+    /**
+     * @return void
+     * @throws \Metaregistrar\RDAP\RdapException
+     */
     public function testIpv4Search(): void {
         $rdap = new Rdap(Rdap::IPV4);
 

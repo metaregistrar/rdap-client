@@ -64,6 +64,10 @@ final class RdapSecureDNS extends RdapObject {
      * @return null|string
      */
     public function getKeyTag(): ?string {
+        if (is_array($this->keyTag)) {
+            return (string)array_shift($this->keyTag);
+        }
+
         return $this->keyTag;
     }
 
