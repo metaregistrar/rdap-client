@@ -91,6 +91,21 @@ final class RdapTest extends TestCase {
             $tags[] = $dns->getKeyTag();
         }
     }
+    /**
+     * @return void
+     * @throws \Metaregistrar\RDAP\RdapException
+     */
+    public function testInvalidDomainSearch(): void {
+        $rdap = new Rdap(Rdap::DOMAIN);
+
+        $invalidDomainName = 'notADomainName';
+
+        $this->expectException(RdapException::class);
+        $this->expectExceptionMessage("Invalid domain name '$invalidDomainName'.");
+
+        $rdap->search($invalidDomainName);
+    }
+
 
     /**
      * @return void
