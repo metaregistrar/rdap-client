@@ -10,7 +10,7 @@ include './vendor/autoload.php';
 //$search = '81.4.97.200';
 //$search = '82.135.96.210';
 //$search = '8.8.4.4';
-$search = 'adaceu';
+$search = 'loichinger.bayern';
 //$protocol = Metaregistrar\RDAP\Rdap::IPV4;
 $protocol = Metaregistrar\RDAP\Rdap::DOMAIN;
 
@@ -23,10 +23,9 @@ try {
         echo 'class name: ' . $test->getClassname() . PHP_EOL;
         echo 'handle: ' . $test->getHandle() . PHP_EOL;
         echo 'LDH (letters, digits, hyphens) name: ' . $test->getLDHName() . PHP_EOL;
-        //echo "name: ".$test->getName().PHP_EOL;
-        //echo "country: ".$test->getCountry().PHP_EOL;
-        //echo "type: ".$test->getType().PHP_EOL;
-        //echo "port 43 service: ".$test->getPort43().PHP_EOL;
+        echo "name: ".$test->getName().PHP_EOL;
+        echo "type: ".$test->getType().PHP_EOL;
+        echo "port 43 service: ".$test->getPort43().PHP_EOL;
         if (is_array($test->getNameservers())) {
             echo "\nNameservers:\n";
             foreach ($test->getNameservers() as $nameserver) {

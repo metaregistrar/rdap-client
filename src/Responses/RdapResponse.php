@@ -9,7 +9,6 @@ use Metaregistrar\RDAP\Data\RdapLink;
 use Metaregistrar\RDAP\Data\RdapNameserver;
 use Metaregistrar\RDAP\Data\RdapNotice;
 use Metaregistrar\RDAP\Data\RdapObject;
-use Metaregistrar\RDAP\Data\RdapPort43;
 use Metaregistrar\RDAP\Data\RdapRemark;
 use Metaregistrar\RDAP\Data\RdapSecureDNS;
 use Metaregistrar\RDAP\Data\RdapStatus;
@@ -61,7 +60,7 @@ class RdapResponse {
      */
     private $events;
     /**
-     * @var null|RdapPort43[]
+     * @var null|string
      */
     private $port43;
     /**
@@ -168,9 +167,9 @@ class RdapResponse {
     }
 
     /**
-     * @return RdapPort43[]|null
+     * @return string|null
      */
-    final public function getPort43(): ?array {
+    final public function getPort43(): ?string {
         return $this->port43;
     }
 
@@ -219,14 +218,14 @@ class RdapResponse {
     /**
      * @return int|null
      */
-    public function getErrorCode(): ?int {
+    final public function getErrorCode(): ?int {
         return $this->errorCode;
     }
 
     /**
      * @return string|null
      */
-    public function getTitle(): ?string {
+    final public function getTitle(): ?string {
         return $this->title;
     }
 }
