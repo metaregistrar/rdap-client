@@ -12,7 +12,7 @@ final class RdapEntity extends RdapObject {
      */
     protected $lang;
     /*
-     * @var string
+     * @var mixed
      */
     protected $handle;
     /**
@@ -104,9 +104,9 @@ final class RdapEntity extends RdapObject {
     }
 
     /**
-     * @return string|null
+     * @return mixed
      */
-    public function getHandle(): ?string {
+    public function getHandle() {
         return $this->handle;
     }
 
