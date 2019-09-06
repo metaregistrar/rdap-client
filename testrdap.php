@@ -10,7 +10,8 @@ include './vendor/autoload.php';
 //$search = '81.4.97.200';
 //$search = '82.135.96.210';
 //$search = '8.8.4.4';
-$search = 'bleibtreu.berlin';
+//$search = 'bleibtreu.berlin';
+$search = 'wasser.bayern';
 //$protocol = Metaregistrar\RDAP\Rdap::IPV4;
 $protocol = Metaregistrar\RDAP\Rdap::DOMAIN;
 
