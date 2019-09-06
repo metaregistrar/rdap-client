@@ -96,14 +96,20 @@ final class RdapVcard {
         }
         if ($this->name === 'adr') {
             $return = 'Type: ' . $this->name . ', Content: ';
-            foreach ($this->content as $content) {
-                if (is_array($content)) {
-                    foreach ($content as $cont) {
-                        $return .= $cont . ' ';
+            if (is_array($this->content)) {
+                foreach ($this->content as $content) {
+                    if (is_array($content)) {
+                        foreach ($content as $cont) {
+                            $return .= $cont . ' ';
+                        }
+                    } else {
+                        if (trim($content) !== '') {
+                            $return .= $content . ' ';
+                        }
                     }
-                } else if (trim($content) !== '') {
-                    $return .= $content . ' ';
                 }
+            } else {
+                $return .= $content;
             }
 
             return $return;
