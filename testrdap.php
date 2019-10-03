@@ -11,12 +11,13 @@ include './vendor/autoload.php';
 //$search = '82.135.96.210';
 //$search = '8.8.4.4';
 //$search = 'bleibtreu.berlin';
-$search = 'wasser.bayern';
+$search = 'nic.ch';
 //$protocol = Metaregistrar\RDAP\Rdap::IPV4;
 $protocol = Metaregistrar\RDAP\Rdap::DOMAIN;
 
 try {
     $rdap  = new Metaregistrar\RDAP\Rdap($protocol);
+    //$rdap->addTld('ch','https://rdap.nic.ch');
     $test  = $rdap->search($search);
 
     if ($test && $test->getErrorCode() === null) {
