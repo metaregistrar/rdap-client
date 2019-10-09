@@ -129,6 +129,10 @@ class RdapObject {
      * @return string
      */
      final public function getObjectClassname(): string {
-        return $this->objectClassName;
+         if (is_string($this->objectClassName)) {
+             return $this->objectClassName;
+         } else {
+             return '';
+         }
     }
 }
