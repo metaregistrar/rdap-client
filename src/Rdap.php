@@ -7,7 +7,7 @@ use Metaregistrar\RDAP\Responses\RdapIpResponse;
 use Metaregistrar\RDAP\Responses\RdapResponse;
 use Psr\SimpleCache\CacheInterface;
 
-final class Rdap {
+class Rdap {
     public const ASN    = 'asn';
     public const IPV4   = 'ipv4';
     public const IPV6   = 'ipv6';
