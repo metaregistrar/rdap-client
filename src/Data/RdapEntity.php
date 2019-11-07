@@ -12,7 +12,7 @@ final class RdapEntity extends RdapObject {
      */
     protected $lang;
     /*
-     * @var mixed
+     * @var string
      */
     protected $handle;
     /**
@@ -27,9 +27,12 @@ final class RdapEntity extends RdapObject {
      * @var RdapVcard[]|null
      */
     protected $vcards         ;
+
     protected $vcardArray     ;
+
     protected $objectClassName;
-    protected $remarks         = array();
+
+    protected $remarks;
     /**
      * @var RdapRole[]|null
      */
@@ -38,7 +41,20 @@ final class RdapEntity extends RdapObject {
      * @var null|RdapPublicId[]
      */
     protected $publicIds;
+
     protected $entities ;
+
+    protected $events;
+
+    protected $links;
+
+    protected $legalRepresentative;
+
+    protected $nicbrDomainCount;
+
+    protected $nicbrInetCount;
+
+    protected $nicbrAutnumCount;
 
     public function __construct(string $key, $content) {
         parent::__construct($key, $content);
@@ -48,9 +64,7 @@ final class RdapEntity extends RdapObject {
                     foreach ($vcard as $v) {
                         if (is_array($v)) {
                             foreach ($v as $card) {
-                                if ((is_array($card)) && (count($card)>3)) {
-                                    $this->vcards[] = new RdapVcard($card[0], $card[1], $card[2], $card[3]);
-                                }
+                                $this->vcards[] = new RdapVcard($card[0], $card[1], $card[2], $card[3]);
                             }
                         }
                     }
@@ -73,15 +87,21 @@ final class RdapEntity extends RdapObject {
      * @return string
      */
     public function getRoles(): string {
+        $return = '';
         if (is_array($this->roles)) {
-            return implode(', ', $this->roles);
+            foreach ($this->roles as $role) {
+                if ($return !== '') {
+                    $return .= ', ';
+                }
+                $return .= $role->getRole();
+            }
         }
 
-        return '';
+        return $return;
     }
 
     /**
-     * @return void
+     *
      */
     public function dumpContents(): void {
         echo '- Handle: ' . $this->getHandle() . PHP_EOL;
@@ -90,9 +110,9 @@ final class RdapEntity extends RdapObject {
                 echo '- Role: ' . $role->getRole() . PHP_EOL;
             }
         }
-        if (isset($this->port43)) {
-            echo '- Port 43 whois: ' . $this->getPort43() . PHP_EOL;
-        }
+        //if (isset($this->port43)) {
+        //    echo '- Port 43 whois: ' . $this->getPort43() . PHP_EOL;
+        //}
         if (isset($this->publicIds) && is_array($this->publicIds)) {
             foreach ($this->publicIds as $publicid) {
                 $publicid->dumpContents();
@@ -106,23 +126,68 @@ final class RdapEntity extends RdapObject {
     }
 
     /**
-     * @return mixed
+     * @return string|null
      */
     public function getHandle() {
-        return $this->handle;
+        if (is_array($this->handle)){
+            return $this->handle[0];
+        }
+        else {
+            return $this->handle;
+        }
+
     }
 
     /**
      * @return null|string
      */
-    public function getPort43(): ?string {
+    public function getPort43() {
         return $this->port43;
     }
 
-    /**
-     * @return \Metaregistrar\RDAP\Data\RdapVcard[]|null
-     */
-    public function getVcards(): ?array {
+    public function getEntities() {
+            return $this->entities;
+    }
+
+    public function getPublicIds() {
+        return $this->publicIds;
+    }
+
+    public function getVcards() {
         return $this->vcards;
+    }
+
+    public function getEvents(){
+        return $this->events;
+    }
+
+    public function getLinks(){
+        return $this->links;
+    }
+
+    public function getLegalRepresentative(){
+        return $this->legalRepresentative;
+    }
+
+    public function getRemarks(){
+        return $this->remarks;
+    }
+
+
+    public function getStatus(){
+        return $this->status;
+      }
+
+
+    public function getNicbrDomainCount(){
+        return $this->nicbrDomainCount;
+    }
+
+    public function getNicbrInetCount(){
+        return $this->nicbrInetCount;
+    }
+
+    public function getNicbrAutnumCount(){
+        return $this->nicbrAutnumCount;
     }
 }
