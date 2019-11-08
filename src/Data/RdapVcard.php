@@ -12,9 +12,6 @@ final class RdapVcard {
      * @var null|string
      */
     protected $fieldtype;
-    /**
-     * @var string|array
-     */
     protected $content;
     /**
      * @var null|int
@@ -25,15 +22,7 @@ final class RdapVcard {
      */
     protected $contenttypes;
 
-    /**
-     * RdapVcard constructor.
-     *
-     * @param string $name
-     * @param        $extras
-     * @param string $type
-     * @param        $contents
-     */
-    public function __construct(string $name, $extras, string $type, $contents) {
+    public function __construct($name, $extras, $type, $contents) {
         $this->name = $name;
         if (is_array($extras)) {
             if (isset($extras['type'])) {
@@ -53,38 +42,23 @@ final class RdapVcard {
         $this->content   = $contents;
     }
 
-    /**
-     * @return null|string
-     */
     public function getName(): ?string {
         return $this->name;
     }
 
-    /**
-     * @return null|string
-     */
     public function getFieldtype(): ?string {
         return $this->fieldtype;
     }
 
-    /**
-     * @return array|null
-     */
     public function getContentTypes(): ?array {
         return $this->contenttypes;
     }
 
-    /**
-     * @return void
-     */
     public function dumpContents(): void {
-        echo '  - ' . $this->getDumpContent() . PHP_EOL;
+        echo '  - ' . $this->getContent() . PHP_EOL;
     }
 
-    /**
-     * @return null|string
-     */
-    private function getDumpContent(): ?string {
+    public function getContent(): ?string {
         if ($this->name === 'version') {
             return 'Version: ' . $this->content;
         }
@@ -96,20 +70,14 @@ final class RdapVcard {
         }
         if ($this->name === 'adr') {
             $return = 'Type: ' . $this->name . ', Content: ';
-            if (is_array($this->content)) {
-                foreach ($this->content as $content) {
-                    if (is_array($content)) {
-                        foreach ($content as $cont) {
-                            $return .= $cont . ' ';
-                        }
-                    } else {
-                        if (trim($content) !== '') {
-                            $return .= $content . ' ';
-                        }
+            foreach ($this->content as $content) {
+                if (is_array($content)) {
+                    foreach ($content as $cont) {
+                        $return .= $cont . ' ';
                     }
+                } else if (trim($content) !== '') {
+                    $return .= $content . ' ';
                 }
-            } else {
-                $return .= $this->content;
             }
 
             return $return;
@@ -127,9 +95,11 @@ final class RdapVcard {
         return null;
     }
 
-    /**
-     * @return string
-     */
+    public function getContentSimple(){
+        return $this->content;
+    }
+
+
     public function dumpContentTypes(): string {
         $return = '';
         if (is_array($this->contenttypes)) {
@@ -143,15 +113,5 @@ final class RdapVcard {
 
         return $return;
     }
-
-    /**
-     * @return string
-     */
-    public function getContent(): string {
-        if (is_array($this->content)) {
-            return implode(', ', $this->content);
-        }
-
-        return $this->content;
-    }
 }
+
