@@ -28,6 +28,7 @@ final class Rdap {
     private $publicationdate = '';
     private $version         = '';
     private $description     = '';
+    private $extratlds       = [];
 
     /** @var \Psr\SimpleCache\CacheInterface */
     private $cache;
@@ -43,7 +44,6 @@ final class Rdap {
         if (($protocol !== self::ASN) && ($protocol !== self::IPV4) && ($protocol !== self::IPV6) && ($protocol !== self::DOMAIN)) {
             throw new RdapException('Protocol ' . $protocol . ' is not recognized by this rdap client implementation');
         }
-
         $this->protocol = $protocol;
     }
 
@@ -177,6 +177,13 @@ final class Rdap {
     private function readRoot(): array {
         $rdap = $this->getResponse(self::$protocols[$this->protocol][self::HOME], 'root');
         $json = json_decode($rdap, false);
+        if (count($this->extratlds)>0) {
+            foreach ($this->extratlds as $tld=>$url) {
+                $json->services[]=[[$tld],[$url]];
+            }
+        }
+        //var_dump($json->services);
+        //die();
         $this->setDescription($json->description);
         $this->setPublicationdate($json->publication);
         $this->setVersion($json->version);
@@ -289,5 +296,11 @@ final class Rdap {
      */
     public function setCache(CacheInterface $cache): void {
         $this->cache = $cache;
+    }
+
+    public function addTld($tld,$url) {
+        if ((strlen($tld)>0) && (strlen($url)>0)) {
+            $this->extratlds[strtolower($tld)] = $url;
+        }
     }
 }

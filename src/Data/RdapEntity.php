@@ -48,7 +48,9 @@ final class RdapEntity extends RdapObject {
                     foreach ($vcard as $v) {
                         if (is_array($v)) {
                             foreach ($v as $card) {
-                                $this->vcards[] = new RdapVcard($card[0], $card[1], $card[2], $card[3]);
+                                if ((is_array($card)) && (count($card)>3)) {
+                                    $this->vcards[] = new RdapVcard($card[0], $card[1], $card[2], $card[3]);
+                                }
                             }
                         }
                     }

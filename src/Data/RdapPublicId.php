@@ -12,11 +12,14 @@ final class RdapPublicId extends RdapObject {
             if (array_key_exists('type', $content)) {
                 $this->ids[$content['type']] = $content['identifier'];
             } else {
-                foreach ($content as $id) {
-                    $this->ids[$id['type']] = $id['identifier'];
+                foreach ($content as $index=>$id) {
+                    if (isset($id['type'])) {
+                        $this->ids[$id['type']] = $id['identifier'];
+                    } else {
+                        $this->ids[$index] = $id['identifier'];
+                    }
                 }
             }
-
         }
     }
 

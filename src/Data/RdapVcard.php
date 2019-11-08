@@ -109,7 +109,7 @@ final class RdapVcard {
                     }
                 }
             } else {
-                $return .= $content;
+                $return .= $this->content;
             }
 
             return $return;
