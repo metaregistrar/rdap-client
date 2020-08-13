@@ -2,10 +2,12 @@
 
 namespace Metaregistrar\RDAP\Data;
 
-final class RdapPublicId extends RdapObject {
+final class RdapPublicId extends RdapObject
+{
     protected $ids;
 
-    public function __construct(string $key, $content) {
+    public function __construct(string $key, $content)
+    {
         $this->objectClassName = 'PublicId';
         parent::__construct($key, null);
         if (is_array($content)) {
@@ -15,13 +17,15 @@ final class RdapPublicId extends RdapObject {
         }
     }
 
-    public function dumpContents(): void {
+    public function dumpContents(): void
+    {
         foreach ($this->ids as $type => $identifier) {
             echo "- $type: $identifier\n";
         }
     }
 
-    public function getIds(){
+    public function getIds()
+    {
         return $this->ids;
     }
 }

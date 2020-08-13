@@ -2,5 +2,6 @@
 
 namespace Metaregistrar\RDAP\Data;
 
-final class RdapPort43 extends RdapObject {
+final class RdapPort43 extends RdapObject
+{
 }

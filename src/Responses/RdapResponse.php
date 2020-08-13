@@ -14,7 +14,8 @@ use Metaregistrar\RDAP\Data\RdapSecureDNS;
 use Metaregistrar\RDAP\Data\RdapStatus;
 use Metaregistrar\RDAP\RdapException;
 
-class RdapResponse {
+class RdapResponse
+{
     /**
      * @var string|null
      */
@@ -22,7 +23,7 @@ class RdapResponse {
     /**
      * @var string|null
      */
-    private $ldhName ;
+    private $ldhName;
     /**
      * @var string
      */
@@ -90,9 +91,10 @@ class RdapResponse {
      *
      * @param string $json
      *
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
-    public function __construct(string $json) {
+    public function __construct(string $json)
+    {
         if ($data = json_decode($json, true)) {
             foreach ($data as $key => $value) {
                 if (is_array($value)) {
@@ -113,119 +115,136 @@ class RdapResponse {
     /**
      * @return string
      */
-    final public function getHandle(): string {
+    final public function getHandle(): string
+    {
         return $this->handle;
     }
 
     /**
      * @return RdapConformance[]|null
      */
-    final public function getConformance(): ?array {
+    final public function getConformance(): ?array
+    {
         return $this->rdapConformance;
     }
 
     /**
      * @return string
      */
-    final public function getName(): string {
+    final public function getName(): string
+    {
         return $this->name;
     }
 
     /**
      * @return string
      */
-    final public function getType(): string {
+    final public function getType(): string
+    {
         return $this->type;
     }
 
     /**
      * @return RdapEntity[]|null
      */
-    final public function getEntities(): ?array {
+    final public function getEntities(): ?array
+    {
         return $this->entities;
     }
 
     /**
      * @return RdapLink[]|null
      */
-    final public function getLinks(): ?array {
+    final public function getLinks(): ?array
+    {
         return $this->links;
     }
 
     /**
      * @return RdapRemark[]|null
      */
-    final public function getRemarks(): ?array {
+    final public function getRemarks(): ?array
+    {
         return $this->remarks;
     }
 
     /**
      * @return RdapNotice[]|null
      */
-    final public function getNotices(): ?array {
+    final public function getNotices(): ?array
+    {
         return $this->notices;
     }
 
     /**
      * @return string|null
      */
-    final public function getPort43(): ?string {
+    final public function getPort43(): ?string
+    {
         return $this->port43;
     }
 
     /**
      * @return RdapNameserver[]|null
      */
-    final public function getNameservers(): ?array {
+    final public function getNameservers(): ?array
+    {
         return $this->nameservers;
     }
 
     /**
      * @return RdapStatus[]|null
      */
-    final public function getStatus(): ?array {
+    final public function getStatus(): ?array
+    {
         return $this->status;
     }
 
     /**
      * @return RdapEvent[]|null
      */
-    final public function getEvents(): ?array {
+    final public function getEvents(): ?array
+    {
         return $this->events;
     }
 
     /**
      * @return string|null
      */
-    final public function getClassname(): ?string {
+    final public function getClassname(): ?string
+    {
         return $this->objectClassName;
     }
 
     /**
      * @return string|null
      */
-    final public function getLDHName(): ?string {
+    final public function getLDHName(): ?string
+    {
         return $this->ldhName;
     }
 
     /**
      * @return RdapSecureDNS[]|null
      */
-    final public function getSecureDNS(): ?array {
+    final public function getSecureDNS(): ?array
+    {
         return $this->secureDNS;
     }
 
     /**
      * @return int|null
      */
-    final public function getErrorCode(): ?int {
+    final public function getErrorCode(): ?int
+    {
         return $this->errorCode;
     }
 
     /**
      * @return string|null
      */
-    final public function getTitle(): ?string {
+    final public function getTitle(): ?string
+    {
         return $this->title;
     }
 }
