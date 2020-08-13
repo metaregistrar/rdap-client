@@ -228,8 +228,15 @@ class Rdap
         if ($service[strlen($service) - 1] !== '/') {
             $service .= '/';
         }
-        $rdap = file_get_contents($service . self::$protocols[$this->getProtocol()][self::SEARCH] . $search);
-        if ($rdap === false) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $service . self::$protocols[$this->getProtocol()][self::SEARCH] . $search);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        $rdap = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+//        $rdap = file_get_contents($service . self::$protocols[$this->getProtocol()][self::SEARCH] . $search);
+        if ($rdap === false && $http_code !== 404 && $http_code !== 403) {
             throw new RdapException('Faled to connect with: ' . $service . self::$protocols[$this->protocol][self::SEARCH] . $search);
         }
         if ($rdap) {
