@@ -117,21 +117,22 @@ class Rdap
             throw new RdapException('Search parameter must be a number or a string with numeric info for asn searches');
         }
 
-        $parameter = $this->prepareSearch($search);
+        $parameters = $this->prepareSearch($search);
         $services = $this->readRoot();
-
-        foreach ($services as $service) {
-            foreach ($service[0] as $number) {
-                // ip address range match
-                if (strpos($number, '-') > 0) {
-                    [$start, $end] = explode('-', $number);
-                    if (($parameter >= $start) && ($parameter <= $end)) {
-                        return $this->request($service[1][0], $search);
-                    }
-                } else {
-                    // exact match
-                    if ($number === $parameter) {
-                        return $this->request($service[1][0], $search);
+        foreach ($parameters as $parameter) {
+            foreach ($services as $service) {
+                foreach ($service[0] as $number) {
+                    // ip address range match
+                    if (strpos($number, '-') > 0) {
+                        [$start, $end] = explode('-', $number);
+                        if (($parameter >= $start) && ($parameter <= $end)) {
+                            return $this->request($service[1][0], $search);
+                        }
+                    } else {
+                        // exact match
+                        if ($number === $parameter) {
+                            return $this->request($service[1][0], $search);
+                        }
                     }
                 }
             }
@@ -181,19 +182,24 @@ class Rdap
         return $this;
     }
 
-    private function prepareSearch(string $string): string
+    private function prepareSearch(string $string): array
     {
         switch ($this->getProtocol()) {
             case self::IPV4:
                 [$start] = explode('.', $string);
 
-                return $start . '.0.0.0/8';
+                return [$start . '.0.0.0/8'];
             case self::DOMAIN:
-                $extension = explode('.', $string, 2);
+//                $extension = explode('.', $string, 2);
+                $extension = [];
+                $count = substr_count($string, '.');
 
-                return $extension[1];
+                for ($i = $count; $i >= 1; $i--) {
+                    $extension[] = implode('.', array_slice(explode('.', $string), $i * -1));
+                }
+                return $extension;
             default:
-                return $string;
+                return [$string];
         }
     }
 
