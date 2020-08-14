@@ -28,15 +28,25 @@ class Rdap
     private $publicationdate = '';
     private $version = '';
     private $description = '';
+    /**
+     * @var bool
+     */
+    private $cache_enabled;
+    /**
+     * @var string
+     */
+    private $cache_dir;
 
     /**
      * Rdap constructor.
      *
      * @param string $protocol
      *
+     * @param bool $use_cache
+     * @param string $cache_dir
      * @throws RdapException
      */
-    public function __construct(string $protocol = '')
+    public function __construct(string $protocol = '', bool $use_cache = true, string $cache_dir = 'rdap-cache')
     {
         if ($protocol) {
             if (($protocol !== self::ASN) && ($protocol !== self::IPV4) && ($protocol !== self::IPV6) && ($protocol !== self::DOMAIN)) {
@@ -44,6 +54,8 @@ class Rdap
             }
             $this->protocol = $protocol;
         }
+        $this->cache_enabled = $use_cache;
+        $this->cache_dir = $cache_dir;
     }
 
     /**
@@ -104,18 +116,7 @@ class Rdap
      */
     public function search(string $search): ?RdapResponse
     {
-        if (!isset($search) || ($search === '')) {
-            throw new RdapException('Search parameter may not be empty');
-        }
-        $search = trim($search);
         $this->setProtocol($this->guessProtocol($search));
-        if ((!is_string($search)) && in_array($this->getProtocol(), [self::DOMAIN, self::NS, self::IPV4, self::IPV6], true)) {
-            throw new RdapException('Search parameter must be a string for ipv4, ipv6, domain or nameserver searches');
-        }
-
-        if ((!is_numeric($search)) && ($this->getProtocol() === self::ASN)) {
-            throw new RdapException('Search parameter must be a number or a string with numeric info for asn searches');
-        }
 
         $parameters = $this->prepareSearch($search);
         $services = $this->readRoot();
@@ -128,11 +129,8 @@ class Rdap
                         if (($parameter >= $start) && ($parameter <= $end)) {
                             return $this->request($service[1][0], $search);
                         }
-                    } else {
-                        // exact match
-                        if ($number === $parameter) {
-                            return $this->request($service[1][0], $search);
-                        }
+                    } else if ($number === $parameter) {
+                        return $this->request($service[1][0], $search);
                     }
                 }
             }
@@ -145,8 +143,9 @@ class Rdap
      * @return Rdap
      * @throws RdapException
      */
-    public function guessProtocol($search): string
+    public function guessProtocol(string $search): string
     {
+        $search = trim($search);
         if (is_numeric($search)) {
             return self::ASN;
         }
@@ -162,6 +161,24 @@ class Rdap
             return self::DOMAIN;
         }
         throw new RdapException('No valid protocol for the given serach parameter.');
+    }
+
+    private function prepareSearch(string $string): array
+    {
+        switch ($this->getProtocol()) {
+            case self::IPV4:
+                [$start] = explode('.', $string);
+                return [$start . '.0.0.0/8'];
+            case self::DOMAIN:
+                $extension = [];
+                $count = substr_count($string, '.');
+                for ($i = $count; $i >= 1; $i--) {
+                    $extension[] = implode('.', array_slice(explode('.', $string), $i * -1));
+                }
+                return $extension;
+            default:
+                return [$string];
+        }
     }
 
     /**
@@ -182,67 +199,131 @@ class Rdap
         return $this;
     }
 
-    private function prepareSearch(string $string): array
+    /**
+     * @return array
+     * @throws RdapException
+     */
+    private function readRoot(): array
     {
-        switch ($this->getProtocol()) {
-            case self::IPV4:
-                [$start] = explode('.', $string);
+        [$rdap, $http_code] = $this->readCache();
 
-                return [$start . '.0.0.0/8'];
-            case self::DOMAIN:
-//                $extension = explode('.', $string, 2);
-                $extension = [];
-                $count = substr_count($string, '.');
-
-                for ($i = $count; $i >= 1; $i--) {
-                    $extension[] = implode('.', array_slice(explode('.', $string), $i * -1));
-                }
-                return $extension;
-            default:
-                return [$string];
+        if ($rdap === false && $http_code !== 404 && $http_code !== 403) {
+            throw new RdapException('Faled to connect with: ' . $this->getRootUrl());
         }
+        if ($rdap) {
+            $json = json_decode($rdap, false);
+            $this->setDescription($json->description);
+            $this->setPublicationdate($json->publication);
+            $this->setVersion($json->version);
+
+            return $json->services;
+        }
+        return [];
     }
 
     /**
      * @return array
      */
-    private function readRoot(): array
+    private function readCache(): array
     {
-        $rdap = file_get_contents(self::$protocols[$this->protocol][self::HOME]);
-        $json = json_decode($rdap, false);
-        $this->setDescription($json->description);
-        $this->setPublicationdate($json->publication);
-        $this->setVersion($json->version);
-
-        return $json->services;
+        if ($this->isCacheEnabled()) {
+            $cache_file = $this->getCacheFile();
+            if (file_exists($cache_file) && (filemtime($cache_file) > (time() - 60 * 60 * 24))) {
+                $rdap = file_get_contents($cache_file);
+                $http_code = 200;
+            } else {
+                [$rdap, $http_code] = $this->doRequest($this->getRootUrl());
+                file_put_contents($cache_file, $rdap, LOCK_EX);
+            }
+        } else {
+            [$rdap, $http_code] = $this->doRequest($this->getRootUrl());
+        }
+        return array($rdap, $http_code);
     }
 
     /**
-     * @param string $service
-     * @param int $search
-     * @return RdapResponse
-     * @throws RdapException
+     * @return bool
      */
-    private function request(string $service, $search): ?RdapResponse
+    public function isCacheEnabled(): bool
     {
-        if ($service[strlen($service) - 1] !== '/') {
-            $service .= '/';
+        return $this->cache_enabled;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCacheFile(): string
+    {
+
+        return $this->getCacheDir() . '/' . array_slice(explode('/', $this->getRootUrl()), -1)[0];
+    }
+
+    /**
+     * @return string
+     */
+    public function getCacheDir(): string
+    {
+        if (!file_exists($this->cache_dir) && !mkdir($concurrentDirectory = $this->cache_dir, 0777, true) && !is_dir($concurrentDirectory)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
         }
+        return $this->cache_dir;
+    }
+
+    /**
+     * @return string
+     */
+    private function getRootUrl(): string
+    {
+        return self::$protocols[$this->getProtocol()][self::HOME];
+    }
+
+    /**
+     * @param string $url
+     * @return array
+     */
+    private function doRequest(string $url): array
+    {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $service . self::$protocols[$this->getProtocol()][self::SEARCH] . $search);
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         $rdap = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-//        $rdap = file_get_contents($service . self::$protocols[$this->getProtocol()][self::SEARCH] . $search);
+        return array($rdap, $http_code);
+    }
+
+    /**
+     * @param string $service
+     * @param mixed $search
+     * @return RdapResponse
+     * @throws RdapException
+     */
+    private function request(string $service, string $search): ?RdapResponse
+    {
+
+        [$rdap, $http_code] = $this->doRequest($this->getSearchUrl($service, $search));
+
         if ($rdap === false && $http_code !== 404 && $http_code !== 403) {
-            throw new RdapException('Faled to connect with: ' . $service . self::$protocols[$this->protocol][self::SEARCH] . $search);
+            throw new RdapException('Faled to connect with: ' . $this->getSearchUrl($service, $search));
         }
         if ($rdap) {
             return $this->createResponse($rdap);
         }
         return null;
+    }
+
+    /**
+     * @param string $service
+     * @param mixed $search
+     * @return string
+     */
+    private function getSearchUrl(string $service, string $search): string
+    {
+        if ($service[strlen($service) - 1] !== '/') {
+            $service .= '/';
+        }
+        return $service . self::$protocols[$this->getProtocol()][self::SEARCH] . $search;
     }
 
     /**
