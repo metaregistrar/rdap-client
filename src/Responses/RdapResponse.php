@@ -28,9 +28,9 @@ class RdapResponse
      * @var string
      */
     private $handle = '';
-    /*
-    * @var  string
-    */
+    /**
+     * @var  string
+     */
     private $name = '';
     /**
      * @var string

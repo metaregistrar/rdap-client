@@ -27,7 +27,7 @@ final class RdapEntity extends RdapObject
     /**
      * @var RdapVcard[]|null
      */
-    protected $vcards;
+    protected $vcards = [];
 
     protected $vcardArray;
 
@@ -43,7 +43,10 @@ final class RdapEntity extends RdapObject
      */
     protected $publicIds;
 
-    protected $entities;
+    /**
+     * @var array
+     */
+    protected $entities = [];
 
     protected $events;
 
@@ -66,7 +69,7 @@ final class RdapEntity extends RdapObject
                     foreach ($vcard as $v) {
                         if (is_array($v)) {
                             foreach ($v as $card) {
-                                $this->vcards[] = new RdapVcard($card[0], $card[1], $card[2], $card[3]);
+                                $this->vcards[$id][] = new RdapVcard($card[0], $card[1], $card[2], $card[3]);
                             }
                         }
                     }
@@ -87,20 +90,18 @@ final class RdapEntity extends RdapObject
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getRoles(): string
+    public function getRoles(): array
     {
-        $return = '';
+        $return = [];
         if (is_array($this->roles)) {
             foreach ($this->roles as $role) {
-                if ($return !== '') {
-                    $return .= ', ';
+                foreach ($role->getRoles() as $roles) {
+                    $return[] = $roles;
                 }
-                $return .= $role->getRole();
             }
         }
-
         return $return;
     }
 

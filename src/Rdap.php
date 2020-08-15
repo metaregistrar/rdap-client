@@ -40,20 +40,11 @@ class Rdap
     /**
      * Rdap constructor.
      *
-     * @param string $protocol
-     *
      * @param bool $use_cache
      * @param string $cache_dir
-     * @throws RdapException
      */
-    public function __construct(string $protocol = '', bool $use_cache = true, string $cache_dir = 'rdap-cache')
+    public function __construct(bool $use_cache = true, string $cache_dir = 'rdap-cache')
     {
-        if ($protocol) {
-            if (($protocol !== self::ASN) && ($protocol !== self::IPV4) && ($protocol !== self::IPV6) && ($protocol !== self::DOMAIN)) {
-                throw new RdapException('Protocol ' . $protocol . ' is not recognized by this rdap client implementation');
-            }
-            $this->protocol = $protocol;
-        }
         $this->cache_enabled = $use_cache;
         $this->cache_dir = $cache_dir;
     }
@@ -287,6 +278,7 @@ class Rdap
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         $rdap = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);

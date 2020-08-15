@@ -8,6 +8,7 @@ final class RdapIpResponse extends RdapResponse
     protected $endAddress;
     protected $ipVersion;
     protected $country;
+    protected $cidr0_cidrs = [];
 
     /**
      * @return string
@@ -36,8 +37,16 @@ final class RdapIpResponse extends RdapResponse
     /**
      * @return string
      */
-    public function getCountry(): string
+    public function getCountry(): ?string
     {
         return $this->country;
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getCidrs(): ?array
+    {
+        return $this->cidr0_cidrs;
     }
 }

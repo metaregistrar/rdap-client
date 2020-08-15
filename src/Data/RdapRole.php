@@ -19,4 +19,23 @@ final class RdapRole extends RdapObject
     {
         return $this->{0};
     }
+
+    /**
+     * @return array
+     */
+    public function getRoles(): array
+    {
+        $roles = [];
+        $stop = false;
+        $i = 0;
+        while (!$stop) {
+            if (isset($this->{$i})) {
+                $roles[] = $this->{$i};
+                $i++;
+            } else {
+                $stop = true;
+            }
+        }
+        return $roles;
+    }
 }
