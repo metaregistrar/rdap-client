@@ -120,8 +120,11 @@ class Rdap
                         if (($parameter >= $start) && ($parameter <= $end)) {
                             return $this->request($service[1][0], $search);
                         }
-                    } else if ($number === $parameter) {
-                        return $this->request($service[1][0], $search);
+                    } else {
+                        $number = explode('/', $number);
+                        if ($number[0] === $parameter) {
+                            return $this->request($service[1][0], $search);
+                        }
                     }
                 }
             }
@@ -159,7 +162,11 @@ class Rdap
         switch ($this->getProtocol()) {
             case self::IPV4:
                 [$start] = explode('.', $string);
-                return [$start . '.0.0.0/8'];
+                return [$start . '.0.0.0'];
+            case self::IPV6:
+                [$first, $second] = explode(':', $string);
+
+                return [$first . '::', $first . ':' . $second . '::'];
             case self::DOMAIN:
                 $extension = [];
                 $count = substr_count($string, '.');
@@ -326,7 +333,7 @@ class Rdap
     private function createResponse(string $json): RdapResponse
     {
         switch ($this->getProtocol()) {
-            case self::IPV4:
+            case self::IPV4 || self::IPV6:
                 return new RdapIpResponse($json);
             case self::ASN:
                 return new RdapAsnResponse($json);
