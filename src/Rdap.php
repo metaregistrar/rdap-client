@@ -3,6 +3,7 @@
 namespace Metaregistrar\RDAP;
 
 use Metaregistrar\RDAP\Responses\RdapAsnResponse;
+use Metaregistrar\RDAP\Responses\RdapDomainResponse;
 use Metaregistrar\RDAP\Responses\RdapIpResponse;
 use Metaregistrar\RDAP\Responses\RdapResponse;
 
@@ -333,10 +334,13 @@ class Rdap
     private function createResponse(string $json): RdapResponse
     {
         switch ($this->getProtocol()) {
-            case self::IPV4 || self::IPV6:
+            case self::IPV4:
+            case self::IPV6:
                 return new RdapIpResponse($json);
             case self::ASN:
                 return new RdapAsnResponse($json);
+            case self::DOMAIN:
+                return new RdapDomainResponse($json);
             default:
                 return new RdapResponse($json);
         }

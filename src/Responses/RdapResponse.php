@@ -31,7 +31,7 @@ class RdapResponse
     /**
      * @var  string
      */
-    private $name = '';
+    protected $name = '';
     /**
      * @var string
      */
@@ -131,7 +131,7 @@ class RdapResponse
     /**
      * @return string
      */
-    final public function getName(): string
+    public function getName(): string
     {
         return $this->name;
     }
