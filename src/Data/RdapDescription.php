@@ -20,7 +20,7 @@ final class RdapDescription extends RdapObject
     public function __construct(string $key, $content)
     {
         parent::__construct($key, null);
-        if (is_array($content)) {
+        if (is_array($content) && isset($content[0])) {
             $this->description = $content[0];
         } else {
             $this->description = $content;
