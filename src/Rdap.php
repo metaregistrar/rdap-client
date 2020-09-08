@@ -204,10 +204,10 @@ class Rdap
      */
     private function readRoot(): array
     {
-        [$rdap, $http_code] = $this->readCache();
+        [$rdap, $http_code, $errors] = $this->readCache();
 
         if ($rdap === false && $http_code !== 404 && $http_code !== 403) {
-            throw new RdapException('Faled to connect with: ' . $this->getRootUrl());
+            throw new RdapException('Faled to connect with: ' . $this->getRootUrl() . 'errors: ' . $errors);
         }
         if ($rdap) {
             $json = json_decode($rdap, false);
@@ -225,19 +225,20 @@ class Rdap
      */
     private function readCache(): array
     {
+        $errors = '';
         if ($this->isCacheEnabled()) {
             $cache_file = $this->getCacheFile();
             if (file_exists($cache_file) && (filemtime($cache_file) > (time() - 60 * 60 * 24))) {
                 $rdap = file_get_contents($cache_file);
                 $http_code = 200;
             } else {
-                [$rdap, $http_code] = $this->doRequest($this->getRootUrl());
+                [$rdap, $http_code, $errors] = $this->doRequest($this->getRootUrl());
                 file_put_contents($cache_file, $rdap, LOCK_EX);
             }
         } else {
-            [$rdap, $http_code] = $this->doRequest($this->getRootUrl());
+            [$rdap, $http_code, $errors] = $this->doRequest($this->getRootUrl());
         }
-        return array($rdap, $http_code);
+        return array($rdap, $http_code, $errors);
     }
 
     /**
@@ -288,9 +289,10 @@ class Rdap
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
         $rdap = curl_exec($ch);
+        $errors = curl_error($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-        return array($rdap, $http_code);
+        return array($rdap, $http_code, $errors);
     }
 
     /**
@@ -302,10 +304,10 @@ class Rdap
     private function request(string $service, string $search): ?RdapResponse
     {
 
-        [$rdap, $http_code] = $this->doRequest($this->getSearchUrl($service, $search));
+        [$rdap, $http_code, $errors] = $this->doRequest($this->getSearchUrl($service, $search));
 
         if ($rdap === false && $http_code !== 404 && $http_code !== 403) {
-            throw new RdapException('Faled to connect with: ' . $this->getSearchUrl($service, $search));
+            throw new RdapException('Faled to connect with: ' . $this->getSearchUrl($service, $search) . 'errors: ' . $errors);
         }
         if ($rdap) {
             return $this->createResponse($rdap);
