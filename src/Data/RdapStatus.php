@@ -2,7 +2,8 @@
 
 namespace Metaregistrar\RDAP\Data;
 
-final class RdapStatus extends RdapObject {
+final class RdapStatus extends RdapObject
+{
 
     /**
      * @var null|string
@@ -12,14 +13,16 @@ final class RdapStatus extends RdapObject {
     /**
      * @return void
      */
-    public function dumpContents(): void {
+    public function dumpContents(): void
+    {
         echo '- Status: ' . $this->getStatus() . PHP_EOL;
     }
 
     /**
      * @return null|string
      */
-    public function getStatus(): ?string{
+    public function getStatus(): ?string
+    {
         return $this->rdapStatus ?? $this->{0} ?? null;
     }
 }

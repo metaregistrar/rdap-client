@@ -1,5 +1,5 @@
 {
-  "name": "metaregistrar/rdap-client",
+  "name": "certunlp/rdap-client",
   "description": "A php client to query rdap (formerly whois) services",
   "minimum-stability": "stable",
   "license": "proprietary",
@@ -11,6 +11,10 @@
     {
       "name": "Ewout de Graaf",
       "email": "ewout@metaregistrar.com"
+    },
+    {
+      "name": "Damián Rubio",
+      "email": "drubio@cert.unlp.edu.ar"
     }
   ],
   "autoload": {

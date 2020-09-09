@@ -10,7 +10,8 @@ use Metaregistrar\RDAP\RdapException;
  *
  * @package Metaregistrar\RDAP
  */
-class RdapObject {
+class RdapObject
+{
     /**
      * @var string
      */
@@ -20,11 +21,12 @@ class RdapObject {
      * RdapObject constructor.
      *
      * @param string $key
-     * @param mixed  $content
+     * @param mixed $content
      *
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
-    public function __construct(string $key, $content) {
+    public function __construct(string $key, $content)
+    {
         if ($content) {
             if (is_array($content)) {
                 foreach ($content as $contentKey => $contentValue) {
@@ -41,7 +43,7 @@ class RdapObject {
                     }
                 }
             } else {
-                $var          = lcfirst(str_replace('Metaregistrar\RDAP\Data\\', '', $key));
+                $var = lcfirst(str_replace('Metaregistrar\RDAP\Data\\', '', $key));
                 $this->{$var} = $content;
             }
         }
@@ -54,9 +56,10 @@ class RdapObject {
      * @param $value
      *
      * @return mixed
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
-    private static function createObject($key, $value) {
+    private static function createObject($key, $value)
+    {
         if (is_numeric($key)) {
             if (is_array($value)) {
                 throw new RdapException("'$key' can not be an array.");
@@ -72,11 +75,12 @@ class RdapObject {
      *
      *
      * @param string $name
-     * @param mixed  $content
+     * @param mixed $content
      *
      * @return mixed
      */
-    public static function KeyToObject(string $name, $content) {
+    public static function KeyToObject(string $name, $content)
+    {
         $name = self::KeyToObjectName($name);
         if (class_exists($name)) {
             return new $name($name, $content);
@@ -92,7 +96,8 @@ class RdapObject {
      *
      * @return string
      */
-    private static function KeyToObjectName(string $name): string {
+    private static function KeyToObjectName(string $name): string
+    {
         switch ($name) {
             case 'rdapConformance':
                 return RdapConformance::class;
@@ -128,11 +133,12 @@ class RdapObject {
     /**
      * @return string
      */
-     final public function getObjectClassname(): string {
-         if (is_string($this->objectClassName)) {
-             return $this->objectClassName;
-         } else {
-             return '';
-         }
+    final public function getObjectClassname(): string
+    {
+        if (is_string($this->objectClassName)) {
+            return $this->objectClassName;
+        }
+
+        return '';
     }
 }

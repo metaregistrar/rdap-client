@@ -2,10 +2,12 @@
 
 namespace Metaregistrar\RDAP\Data;
 
-final class RdapEvent extends RdapObject {
+final class RdapEvent extends RdapObject
+{
     protected $events;
 
-    public function __construct(string $key, $content) {
+    public function __construct(string $key, $content)
+    {
         parent::__construct($key, null);
         if (isset($content[0])) {
             foreach ($content as $c) {
@@ -19,14 +21,16 @@ final class RdapEvent extends RdapObject {
     /**
      * @return array|null
      */
-    public function getEvents(): ?array {
+    public function getEvents(): ?array
+    {
         return $this->events;
     }
 
     /**
      * @return void
      */
-    public function dumpContents(): void {
+    public function dumpContents(): void
+    {
         if (is_array($this->events)) {
             foreach ($this->events as $action => $date) {
                 echo "  - $action: $date\n";

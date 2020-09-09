@@ -2,7 +2,8 @@
 
 namespace Metaregistrar\RDAP\Data;
 
-final class RdapNameserver extends RdapObject {
+final class RdapNameserver extends RdapObject
+{
     /**
      * @var string
      */
@@ -16,13 +17,14 @@ final class RdapNameserver extends RdapObject {
      */
     protected $links;
     /** @var RdapEvent[] */
-    protected $events     ;
+    protected $events;
     protected $ipAddresses;
 
     /**
      * @return string
      */
-    public function getStatus(): string {
+    public function getStatus(): string
+    {
         $return = '';
         if (is_array($this->status)) {
             foreach ($this->status as $status) {
@@ -39,7 +41,8 @@ final class RdapNameserver extends RdapObject {
     /**
      * @return void
      */
-    public function dumpContents(): void {
+    public function dumpContents(): void
+    {
         echo '- Object Classname: ' . $this->getObjectClassname() . PHP_EOL;
         echo '- LDH Name: ' . $this->ldhName . PHP_EOL;
         if (isset($this->status)) {

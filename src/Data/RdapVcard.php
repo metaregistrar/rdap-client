@@ -2,7 +2,8 @@
 
 namespace Metaregistrar\RDAP\Data;
 
-final class RdapVcard {
+final class RdapVcard
+{
 
     /**
      * @var null|string
@@ -22,7 +23,8 @@ final class RdapVcard {
      */
     protected $contenttypes;
 
-    public function __construct($name, $extras, $type, $contents) {
+    public function __construct($name, $extras, $type, $contents)
+    {
         $this->name = $name;
         if (is_array($extras)) {
             if (isset($extras['type'])) {
@@ -39,26 +41,31 @@ final class RdapVcard {
             }
         }
         $this->fieldtype = $type;
-        $this->content   = $contents;
+        $this->content = $contents;
     }
 
-    public function getName(): ?string {
+    public function getName(): ?string
+    {
         return $this->name;
     }
 
-    public function getFieldtype(): ?string {
+    public function getFieldtype(): ?string
+    {
         return $this->fieldtype;
     }
 
-    public function getContentTypes(): ?array {
+    public function getContentTypes(): ?array
+    {
         return $this->contenttypes;
     }
 
-    public function dumpContents(): void {
+    public function dumpContents(): void
+    {
         echo '  - ' . $this->getContent() . PHP_EOL;
     }
 
-    public function getContent(): ?string {
+    public function getContent(): ?string
+    {
         if ($this->name === 'version') {
             return 'Version: ' . $this->content;
         }
@@ -95,12 +102,8 @@ final class RdapVcard {
         return null;
     }
 
-    public function getContentSimple(){
-        return $this->content;
-    }
-
-
-    public function dumpContentTypes(): string {
+    public function dumpContentTypes(): string
+    {
         $return = '';
         if (is_array($this->contenttypes)) {
             foreach ($this->contenttypes as $type) {
@@ -112,6 +115,11 @@ final class RdapVcard {
         }
 
         return $return;
+    }
+
+    public function getContentSimple()
+    {
+        return $this->content;
     }
 }
 
