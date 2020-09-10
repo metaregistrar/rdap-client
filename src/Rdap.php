@@ -117,7 +117,7 @@ class Rdap {
                     [$start, $end] = explode('-', $number);
                     if (($parameter >= $start) && ($parameter <= $end)) {
                         // check for slash as last character in the server name, if not, add it
-                        if ($service[1][0]{strlen($service[1][0]) - 1} !== '/') {
+                        if ($service[1][0][strlen($service[1][0]) - 1] !== '/') {
                             $service[1][0] .= '/';
                         }
                         $rdap = file_get_contents($service[1][0] . self::$protocols[$this->protocol][self::SEARCH] . $search);
