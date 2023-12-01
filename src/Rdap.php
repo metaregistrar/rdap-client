@@ -2,9 +2,11 @@
 
 namespace Metaregistrar\RDAP;
 
-use Metaregistrar\RDAP\Responses\RdapAsnResponse;
-use Metaregistrar\RDAP\Responses\RdapIpResponse;
+use ReflectionClass;
+use Metaregistrar\RDAP\RdapException;
 use Metaregistrar\RDAP\Responses\RdapResponse;
+use Metaregistrar\RDAP\Responses\RdapIpResponse;
+use Metaregistrar\RDAP\Responses\RdapAsnResponse;
 
 class Rdap {
     public const ASN    = 'asn';
@@ -24,9 +26,10 @@ class Rdap {
     ];
 
     private $protocol;
-    private $publicationdate = '';
-    private $version         = '';
-    private $description     = '';
+    private $publicationdate      = '';
+    private $version              = '';
+    private $description          = '';
+    private $defaultResponseClass = '';
 
     /**
      * Rdap constructor.
@@ -35,12 +38,19 @@ class Rdap {
      *
      * @throws \Metaregistrar\RDAP\RdapException
      */
-    public function __construct(string $protocol) {
+    public function __construct(string $protocol, $defaultResponseClass = RdapResponse::class) {
         if (($protocol !== self::ASN) && ($protocol !== self::IPV4) && ($protocol !== self::IPV6) && ($protocol !== self::DOMAIN)) {
             throw new RdapException('Protocol ' . $protocol . ' is not recognized by this rdap client implementation');
         }
 
-        $this->protocol = $protocol;
+        if (! ($defaultResponseClass == RdapResponse::class
+            || (new ReflectionClass($defaultResponseClass))->isSubclassOf(RdapResponse::class))
+        ) {
+            throw new RdapException('responseClass must be a subclass of RdapResponse');
+        }
+
+        $this->protocol      = $protocol;
+        $this->defaultResponseClass = $defaultResponseClass;
     }
 
     /**
@@ -128,7 +138,7 @@ class Rdap {
                     // exact match
                     if ($number === $parameter) {
                         // check for slash as last character in the server name, if not, add it
-                        if ($service[1][0]{strlen($service[1][0]) - 1} !== '/') {
+                        if ($service[1][0][strlen($service[1][0]) - 1] !== '/') {
                             $service[1][0] .= '/';
                         }
 
@@ -194,7 +204,7 @@ class Rdap {
             case self::ASN:
                 return new RdapAsnResponse($json);
             default:
-                return new RdapResponse($json);
+                return new ($this->defaultResponseClass)($json);
         }
     }
 

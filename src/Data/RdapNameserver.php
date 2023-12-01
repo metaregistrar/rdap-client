@@ -37,6 +37,13 @@ final class RdapNameserver extends RdapObject {
     }
 
     /**
+     * @return string
+     */
+    public function getLdhName(): string {
+        return $this->ldhName;
+    }
+
+    /**
      * @return void
      */
     public function dumpContents(): void {
