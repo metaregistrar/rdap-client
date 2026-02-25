@@ -128,7 +128,7 @@ class Rdap {
                     // exact match
                     if ($number === $parameter) {
                         // check for slash as last character in the server name, if not, add it
-                        if ($service[1][0]{strlen($service[1][0]) - 1} !== '/') {
+                        if ($service[1][0][strlen($service[1][0]) - 1] !== '/') {
                             $service[1][0] .= '/';
                         }
 

@@ -4,7 +4,7 @@
   "minimum-stability": "stable",
   "license": "proprietary",
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.4",
     "ext-json": "*"
   },
   "authors": [
