@@ -29,9 +29,16 @@ final class RdapLink extends RdapObject {
                 if (isset($content[0]['rel'])){
                     $this->rel   = $content[0]['rel'];
                 }
-                $this->href  = $content[0]['href'];
-                $this->type  = $content[0]['type'];
-                $this->value = $content[0]['value'];
+				if (isset($content[0]['href'])){
+					$this->href  = $content[0]['href'];
+				}
+				if (isset($content[0]['type'])){
+					$this->type  = $content[0]['type'];
+				}
+				if (isset($content[0]['value'])){
+					$this->value = $content[0]['value'];
+				}
+
             } else {
                 if (isset($content['rel'])){
                     $this->rel   = $content['rel'];
