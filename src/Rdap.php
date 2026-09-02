@@ -2,10 +2,12 @@
 
 namespace Metaregistrar\RDAP;
 
+use AllowDynamicProperties;
 use Metaregistrar\RDAP\Responses\RdapAsnResponse;
 use Metaregistrar\RDAP\Responses\RdapIpResponse;
 use Metaregistrar\RDAP\Responses\RdapResponse;
 
+#[AllowDynamicProperties]
 class Rdap {
     public const ASN    = 'asn';
     public const IPV4   = 'ipv4';
@@ -33,7 +35,7 @@ class Rdap {
      *
      * @param string $protocol
      *
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
     public function __construct(string $protocol) {
         if (($protocol !== self::ASN) && ($protocol !== self::IPV4) && ($protocol !== self::IPV6) && ($protocol !== self::DOMAIN)) {
@@ -90,8 +92,8 @@ class Rdap {
      *
      * @param string $search
      *
-     * @return \Metaregistrar\RDAP\Responses\RdapAsnResponse|\Metaregistrar\RDAP\Responses\RdapIpResponse|\Metaregistrar\RDAP\Responses\RdapResponse|null
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @return RdapAsnResponse|RdapIpResponse|RdapResponse|null
+     * @throws RdapException
      */
     public function search(string $search): ?RdapResponse {
         if (!isset($search) || ($search === '')) {
@@ -132,9 +134,12 @@ class Rdap {
                             $service[1][0] .= '/';
                         }
 
-                        $rdap = file_get_contents($service[1][0] . self::$protocols[$this->protocol][self::SEARCH] . $search);
-
-                        return $this->createResponse($this->getProtocol(), $rdap);
+                        $rdap = @file_get_contents($service[1][0] . self::$protocols[$this->protocol][self::SEARCH] . $search);
+						if ($rdap) {
+							return $this->createResponse($this->getProtocol(), $rdap);
+						} else {
+							throw new RdapException('Could not read search response for '.$search);
+						}
                     }
                 }
             }
@@ -158,8 +163,12 @@ class Rdap {
                 return $start . '.0.0.0/8';
             case self::DOMAIN:
                 $extension = explode('.', $string, 2);
-
-                return $extension[1];
+				if (is_array($extension)) {
+					if (count($extension) > 1) {
+						return $extension[1];
+					}
+				}
+	            throw new RdapException('Invalid domain name: '.$string);
             default:
                 return $string;
         }
@@ -184,8 +193,8 @@ class Rdap {
      * @param string $protocol
      * @param string $json
      *
-     * @return \Metaregistrar\RDAP\Responses\RdapResponse
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @return RdapResponse
+     * @throws RdapException
      */
     protected function createResponse(string $protocol, string $json): RdapResponse {
         switch ($protocol) {

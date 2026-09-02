@@ -2,6 +2,7 @@
 
 namespace Metaregistrar\RDAP\Responses;
 
+use AllowDynamicProperties;
 use Metaregistrar\RDAP\Data\RdapConformance;
 use Metaregistrar\RDAP\Data\RdapEntity;
 use Metaregistrar\RDAP\Data\RdapEvent;
@@ -14,6 +15,8 @@ use Metaregistrar\RDAP\Data\RdapSecureDNS;
 use Metaregistrar\RDAP\Data\RdapStatus;
 use Metaregistrar\RDAP\RdapException;
 
+
+#[AllowDynamicProperties]
 class RdapResponse {
     /**
      * @var string|null

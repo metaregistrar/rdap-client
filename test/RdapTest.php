@@ -61,15 +61,12 @@ final class RdapTest extends TestCase {
      * @return void
      * @throws RdapException
      */
-    public function testNonExistantSearch(): void {
+    public function testNonExistentSearch(): void {
         $rdap = new Rdap(Rdap::DOMAIN);
-
+	    $this->expectException(RdapException::class);
+	    $this->expectExceptionMessage('Could not read search response for mrfglsadfgasdf.rocks');
         $response = $rdap->search('mrfglsadfgasdf.rocks');
-
         $this->assertNotNull($response);
-
-        $this->assertEquals(404, $response->getErrorCode());
-        $this->assertEquals('Object not found', $response->getTitle());
     }
 
     /**
@@ -101,8 +98,7 @@ final class RdapTest extends TestCase {
         $invalidDomainName = 'notADomainName';
 
         $this->expectException(RdapException::class);
-        $this->expectExceptionMessage("Invalid domain name '$invalidDomainName'.");
-
+        $this->expectExceptionMessage("Invalid domain name: $invalidDomainName");
         $rdap->search($invalidDomainName);
     }
 
