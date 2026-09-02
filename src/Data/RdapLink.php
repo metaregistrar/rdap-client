@@ -19,6 +19,7 @@ final class RdapLink extends RdapObject {
      * @var string
      */
     protected $value;
+	protected $title;
 
     public function __construct(string $key, $content) {
         parent::__construct($key, null);

@@ -90,7 +90,7 @@ class RdapResponse {
      *
      * @param string $json
      *
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
     public function __construct(string $json) {
         if ($data = json_decode($json, true)) {

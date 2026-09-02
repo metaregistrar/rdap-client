@@ -2,6 +2,7 @@
 
 namespace Metaregistrar\RDAP\Data;
 
+use AllowDynamicProperties;
 use Metaregistrar\RDAP\RdapException;
 
 /**
@@ -10,6 +11,8 @@ use Metaregistrar\RDAP\RdapException;
  *
  * @package Metaregistrar\RDAP
  */
+
+#[AllowDynamicProperties]
 class RdapObject {
     /**
      * @var string
@@ -22,7 +25,7 @@ class RdapObject {
      * @param string $key
      * @param mixed  $content
      *
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
     public function __construct(string $key, $content) {
         if ($content) {
@@ -41,7 +44,7 @@ class RdapObject {
                     }
                 }
             } else {
-                $var          = lcfirst(str_replace('Metaregistrar\RDAP\Data\\', '', $key));
+                $var  = lcfirst(str_replace('Metaregistrar\RDAP\Data\\', '', $key));
                 $this->{$var} = $content;
             }
         }
@@ -54,7 +57,7 @@ class RdapObject {
      * @param $value
      *
      * @return mixed
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
     private static function createObject($key, $value) {
         if (is_numeric($key)) {

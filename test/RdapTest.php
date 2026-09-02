@@ -17,7 +17,7 @@ final class RdapTest extends TestCase {
 
     /**
      * @return void
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
     public function testEmptySearch(): void {
         $rdap = new Rdap(Rdap::IPV4);
@@ -28,7 +28,7 @@ final class RdapTest extends TestCase {
 
     /**
      * @return void
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
     public function testNoConstructorParamter(): void {
         $this->expectException(RdapException::class);
@@ -39,7 +39,7 @@ final class RdapTest extends TestCase {
      *
      *
      * @return void
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
     public function testDomainSearch(): void {
         $rdap = new Rdap(Rdap::DOMAIN);
@@ -59,7 +59,7 @@ final class RdapTest extends TestCase {
 
     /**
      * @return void
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
     public function testNonExistantSearch(): void {
         $rdap = new Rdap(Rdap::DOMAIN);
@@ -74,7 +74,7 @@ final class RdapTest extends TestCase {
 
     /**
      * @return void
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
     public function testSiteSearch(): void {
         $rdap = new Rdap(Rdap::DOMAIN);
@@ -93,7 +93,7 @@ final class RdapTest extends TestCase {
     }
     /**
      * @return void
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
     public function testInvalidDomainSearch(): void {
         $rdap = new Rdap(Rdap::DOMAIN);
@@ -109,7 +109,7 @@ final class RdapTest extends TestCase {
 
     /**
      * @return void
-     * @throws \Metaregistrar\RDAP\RdapException
+     * @throws RdapException
      */
     public function testIpv4Search(): void {
         $rdap = new Rdap(Rdap::IPV4);
